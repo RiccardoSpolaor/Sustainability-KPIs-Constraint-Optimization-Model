@@ -1,0 +1,18 @@
+%company_type = A;
+
+% The minimum earnings to obtain.
+budget = 500;
+minimum_earnings = 1000;
+
+% Co2 related constraints
+previous_year_co2 = 10000;
+Products = {Box, Recicled_Box};
+
+product_costs = [5, 10];
+product_selling_prices = [20, 20];
+co2_emissions = [3.5, 1.5];
+% times_to_produce = [];
+% minimum_number_of_products_to_make = [];
+% raw_materials_of_products = [];
+
+% 
