@@ -1,10 +1,8 @@
 include "parameters.mzn";
 include "constants.mzn";
+include "variables.mzn";
 
 float: co2_relevance = relevances[CO2_KPI];
-
-/* Variables. */
-array[Products] of var int: n_products;
 
 var float: earnings = sum (p in Products) (n_products[p] * product_selling_prices[p]);
 var float: costs = sum (p in Products) (n_products[p] * product_costs[p]);

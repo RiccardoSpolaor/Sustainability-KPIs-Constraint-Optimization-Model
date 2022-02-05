@@ -9,8 +9,10 @@ previous_year_co2 = 1000;
 Products = {Box, Recicled_Box};
 
 product_costs = [5, 10];
-product_selling_prices = [20, 20];
+product_selling_prices = [20, 22];
 co2_emissions = [3.5, 1.5];
+% an already recicled material is less reciclable than a non recicled one
+product_reciclable_compositions = [0.6, 0.5];
 % times_to_produce = [];
 % minimum_number_of_products_to_make = [];
 % raw_materials_of_products = [];
