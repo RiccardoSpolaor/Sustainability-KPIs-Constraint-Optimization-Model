@@ -3,18 +3,25 @@
 % Use enums to name the various products (large manual page 38)
 % list comprehension (large manual page 42)
 
-
 % include "relevance_initialization.mzn";
-
+include "parameters.mzn";
+include "constants.mzn";
 include "co2_kpi_demo.mzn";
 
-/*
-par float: budget;
-par float: minimum_earnings;
-par float: previous_year_co2;
-float: co2_relevance = 4.6;
-*/
+/* Variables */
+array[KPIs] of var float: total_earnings = [earnings, 0];
+array[KPIs] of var float: total_costs = [costs, 0];
 
+constraint budget - sum(total_costs) >= 0; % The costs cannot overcome the budget.
+constraint sum(k in KPIs)(total_earnings[k] - total_costs[k]) >= minimum_earnings;
+
+solve maximize co2_kpi;
+
+output [
+  "Co2 KPI: \(co2_kpi)\n", 
+  "Number of sold products: \(["\(p): \(n_products[p])" | p in Products])\n",
+  "Earnings: \(sum(k in KPIs)(total_earnings[k] - total_costs[k]))"
+];
 /*
 enum CompanyType = {A, B, C};  
 enum Relevance = {CO2, Packaging, Transportation};

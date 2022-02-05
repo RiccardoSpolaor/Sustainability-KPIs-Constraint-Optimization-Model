@@ -5,7 +5,7 @@ budget = 500;
 minimum_earnings = 1000;
 
 % Co2 related constraints
-previous_year_co2 = 10000;
+previous_year_co2 = 1000;
 Products = {Box, Recicled_Box};
 
 product_costs = [5, 10];
