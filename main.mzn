@@ -16,9 +16,12 @@ array[KPIs] of var float: total_costs = [costs, 0];
 constraint budget - sum(total_costs) >= 0; % The costs cannot overcome the budget.
 constraint sum(k in KPIs)(total_earnings[k] - total_costs[k]) >= minimum_earnings;
 
-solve maximize co2_kpi + recycling_kpi;
+var float: total_kpi_percentage = 100 * (co2_kpi + recycling_kpi) / sum(relevances);
+
+solve maximize total_kpi_percentage;
 
 output [
+  "Total KPI percentage: \(total_kpi_percentage)%\n",
   "Co2 KPI: \(co2_kpi)\n", 
   "Recycling KPI: \(recycling_kpi)\n",
   "Number of sold products: \(["\(p): \(n_products[p])" | p in Products])\n",
