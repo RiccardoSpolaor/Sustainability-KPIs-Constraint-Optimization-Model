@@ -6,7 +6,7 @@
 % include "relevance_initialization.mzn";
 include "parameters.mzn";
 include "constants.mzn";
-include "co2_kpi_demo.mzn";
+include "co2_kpi.mzn";
 include "recycling_kpi.mzn";
 
 /* Variables */
@@ -16,7 +16,7 @@ array[KPIs] of var float: total_costs = [costs, 0];
 constraint budget - sum(total_costs) >= 0; % The costs cannot overcome the budget.
 constraint sum(k in KPIs)(total_earnings[k] - total_costs[k]) >= minimum_earnings;
 
-var float: total_kpi_percentage = 100 * (co2_kpi + recycling_kpi) / sum(relevances);
+var float: total_kpi_percentage = 100 * (co2_kpi + recycling_kpi) / sum([relevances[p] | p in KPIs where used_kpis[p] = true]);
 
 solve maximize total_kpi_percentage;
 
