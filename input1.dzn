@@ -19,3 +19,12 @@ product_reciclable_compositions = [0.8, 0.5];
 % raw_materials_of_products = [];
 
 % 
+Machinery = {M1, M2, M3};
+m_yearly_uses = [1000, 800, 700];
+m_energy_per_hours = [15.01, 13.01, 20.7];
+m_water_per_hours = [200, 230, 210];
+
+% Should be <= sum(m_yearly_uses)
+max_hour_machine_usage = 1500;
+
+% 
