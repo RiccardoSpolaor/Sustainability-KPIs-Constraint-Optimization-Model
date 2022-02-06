@@ -30,7 +30,6 @@ output [
   "Recycling KPI: \(recycling_kpi)\n",
   "Emissions: \(emissions)\n",
   "Time taken: \(sum(p in Products)(product_times[p] * n_products[p]))\n",
-  %"PT: \(actual_machinery_usage)\n",
   "Current Machinery: \(actual_machinery)\n",
   "Number of sold products: \(["\(p): \(n_products[p])" | p in Products])\n",
   "Earnings: \(total_earnings)\n",

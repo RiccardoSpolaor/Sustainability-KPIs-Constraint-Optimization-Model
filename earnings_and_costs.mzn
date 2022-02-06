@@ -13,9 +13,9 @@ var float: machines_total_costs = sum(
 
 /* Variables */
 var float: total_earnings = product_total_earnings;
-var float: total_costs = product_total_costs + machines_total_costs;
+var float: total_costs = product_total_costs;
 
 
 % The costs cannot overcome the budget [ToDo: Move the machines constraint in other places].
-constraint budget - total_costs >= 0; 
+constraint budget - total_costs + machines_total_costs >= 0; 
 constraint total_earnings >= minimum_earnings;

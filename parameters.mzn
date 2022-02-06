@@ -13,6 +13,7 @@ array[Products] of par 0.0..1000.0: product_selling_prices;
 array[Products] of par 0.0..1000.0: co2_emissions;
 array[Products] of par 0.0..1000.0: product_times;
 
+
 % Machinery informations (Mandatory)
 enum Machinery;
 array[Machinery] of par 0.0..10000.0: m_yearly_uses;

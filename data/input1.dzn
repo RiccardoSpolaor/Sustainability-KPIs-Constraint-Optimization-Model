@@ -1,8 +1,8 @@
 % company_type = A;
 
 % The minimum earnings to obtain.
-budget = 3000;
-minimum_earnings = 5000;
+budget = 4000;
+minimum_earnings = 8000;
 available_time_in_hours = 2500;
 
 % Co2 related constraints
@@ -12,7 +12,7 @@ Products = {Box, Recicled_Box};
 product_costs = [5, 9];
 product_selling_prices = [20, 22];
 co2_emissions = [8, 4];
-product_times = [8,14];
+product_times = [4,7];
 % an already recicled material is less reciclable than a non recicled one
 % optional parameter (default = [])
 product_reciclable_compositions = [0.9, 0.7];
