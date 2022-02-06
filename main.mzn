@@ -6,6 +6,8 @@
 % include "relevance_initialization.mzn";
 include "parameters.mzn";
 include "constants.mzn";
+include "machinery_acquisition.mzn";
+include "times_constraint.mzn";
 include "co2_kpi.mzn";
 include "recycling_kpi.mzn";
 
@@ -13,7 +15,9 @@ include "recycling_kpi.mzn";
 array[KPIs] of var float: total_earnings = [earnings, 0];
 array[KPIs] of var float: total_costs = [costs, 0];
 
-constraint budget - sum(total_costs) >= 0; % The costs cannot overcome the budget.
+% The costs cannot overcome the budget [ToDo: Move the machines constraint in other places].
+constraint budget - sum(total_costs) >= 0; 
+
 constraint sum(k in KPIs)(total_earnings[k] - total_costs[k]) >= minimum_earnings;
 
 var float: total_kpi_percentage = 100 * (co2_kpi + recycling_kpi) / sum([relevances[p] | p in KPIs where used_kpis[p] = true]);
@@ -24,8 +28,10 @@ output [
   "Total KPI percentage: \(total_kpi_percentage)%\n",
   "Co2 KPI: \(co2_kpi)\n", 
   "Recycling KPI: \(recycling_kpi)\n",
+  %"PT: \(actual_machinery_usage)\n",
+  "Current Machinery: \(actual_machinery)\n",
   "Number of sold products: \(["\(p): \(n_products[p])" | p in Products])\n",
-  "Earnings: \(sum(k in KPIs)(total_earnings[k] - total_costs[k]))"
+  "Earnings: \(sum(k in KPIs)(total_earnings[k] - total_costs[k]))\n",
 ];
 /*
 enum CompanyType = {A, B, C};  
