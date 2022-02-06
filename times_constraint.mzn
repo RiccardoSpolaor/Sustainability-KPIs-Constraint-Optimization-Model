@@ -1,6 +1,7 @@
 include "parameters.mzn";
 include "variables.mzn";
 
+% ToDo if m_yearly_uses is changed with a variable that determines the actual use of the machines change that.
 constraint sum(p in Products)(product_times[p] * n_products[p]) <= sum([m_yearly_uses[m] * actual_machinery[m] | m in Machinery])
 
 %constraint forall(p in Products)
