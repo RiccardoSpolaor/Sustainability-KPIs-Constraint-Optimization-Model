@@ -17,5 +17,5 @@ var float: total_costs = product_total_costs + machines_total_costs;
 
 
 % The costs cannot overcome the budget [ToDo: Move the machines constraint in other places].
-constraint budget + machines_total_costs - total_costs >= 0; 
+constraint budget - total_costs >= 0; 
 constraint total_earnings >= minimum_earnings;
