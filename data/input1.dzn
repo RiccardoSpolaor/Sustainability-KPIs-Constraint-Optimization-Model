@@ -3,9 +3,10 @@
 % The minimum earnings to obtain.
 budget = 3000;
 minimum_earnings = 5000;
+available_time_in_hours = 2500;
 
 % Co2 related constraints
-previous_year_co2 = 2000;
+previous_year_co2 = 4000;
 Products = {Box, Recicled_Box};
 
 product_costs = [5, 9];
@@ -25,9 +26,11 @@ m_yearly_uses = [100, 200, 500];
 m_energy_per_hours = [15.01, 15.01, 15.01];
 m_co2_per_hours = [0.02, 0.01, 0.0005];
 m_water_per_hours = [200, 200, 300];
+
 m_prices = [200, 250, 600];
 m_resell_prices = [100, 125, 300];
 max_n_machinery = 5;
+
 % m_linked_products = [|true, false|true, true|];
 % Should be <= sum(m_yearly_uses)
 starting_machinery = [1, 2, 0];

@@ -2,6 +2,8 @@
 include "parameters.mzn";
 include "variables.mzn";
 
+
+
 constraint sum(m in Machinery)(starting_machinery[m]) <= max_n_machinery;
 constraint sum(m in Machinery)(actual_machinery[m]) <= max_n_machinery;
 

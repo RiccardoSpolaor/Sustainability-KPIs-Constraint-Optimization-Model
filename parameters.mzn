@@ -4,6 +4,7 @@
 par 0.0..100000.0: budget;
 par 0.0..100000.0: minimum_earnings;
 par 0.0..100000.0: previous_year_co2;
+par 0.0..100000.0: available_time_in_hours;
 
 % Products informations (Mandatory)
 enum Products;

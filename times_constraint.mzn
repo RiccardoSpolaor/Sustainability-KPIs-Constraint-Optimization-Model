@@ -2,7 +2,11 @@ include "parameters.mzn";
 include "variables.mzn";
 
 % ToDo if m_yearly_uses is changed with a variable that determines the actual use of the machines change that.
-constraint sum(p in Products)(product_times[p] * n_products[p]) <= sum([m_yearly_uses[m] * actual_machinery[m] | m in Machinery])
+constraint sum(p in Products)(product_times[p] * n_products[p]) <= sum([m_yearly_uses[m] * actual_machinery[m] | m in Machinery]);
+
+constraint sum(p in Products)(product_times[p] * n_products[p]) <= available_time_in_hours;
+
+
 
 %constraint forall(p in Products)
 %  (product_times[p] * n_products[p] <= sum([m_yearly_uses[m] | m in Machinery where m_linked_products[m,p] == true]));
