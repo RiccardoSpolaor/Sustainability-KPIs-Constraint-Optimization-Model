@@ -7,11 +7,19 @@ par 0.0..100000.0: previous_year_co2;
 par 0.0..100000.0: available_time_in_hours;
 
 % Products informations (Mandatory)
+enum RawMaterials;
+array[RawMaterials] of par 0.0..1000.0: material_costs;
+array[RawMaterials] of par 0.0..1000.0: material_co2_emissions;
+
+array[Products, 1..3, RawMaterials] of int: product_materials;
+
 enum Products;
 array[Products] of par 0.0..1000.0: product_costs;
 array[Products] of par 0.0..1000.0: product_selling_prices;
 array[Products] of par 0.0..1000.0: co2_emissions;
 array[Products] of par 0.0..1000.0: product_times;
+
+
 
 
 % Machinery informations (Mandatory)

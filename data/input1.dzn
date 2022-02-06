@@ -7,12 +7,28 @@ available_time_in_hours = 2500;
 
 % Co2 related constraints
 previous_year_co2 = 4000;
-Products = {Box, Recicled_Box};
+
+% Products
+
+Products = {Box, Big_Box};
+RawMaterials = {Paper, Rec_Paper};
+
+material_costs = [1, 2];
+material_co2_emissions = [8, 4];
 
 product_costs = [5, 9];
 product_selling_prices = [20, 22];
 co2_emissions = [8, 4];
 product_times = [4,7];
+product_materials = [[Paper, Rec_Paper], [Paper, Rec_Paper]];
+
+product_materials = array3d(Products , 1..3, RawMaterials, [ 
+  % Box 
+  2, 0,     0, 2,    1, 1
+  % Big_Box
+  4, 0,     0, 4,   2, 2
+]);
+
 % an already recicled material is less reciclable than a non recicled one
 % optional parameter (default = [])
 product_reciclable_compositions = [0.9, 0.7];
