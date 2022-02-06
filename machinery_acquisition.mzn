@@ -2,10 +2,12 @@
 include "parameters.mzn";
 include "variables.mzn";
 
-
-
 constraint sum(m in Machinery)(starting_machinery[m]) <= max_n_machinery;
 constraint sum(m in Machinery)(actual_machinery[m]) <= max_n_machinery;
+
+constraint forall(m in Machinery)(actual_machinery[m] == false -> forall(p in Products) (machinery_n_products[m, p] = 0));
+constraint sum(machinery_n_products) == sum(n_products);
+constraint forall(m in Machinery)(time_per_machinery[m] <= m_yearly_uses[m]);
 
 /*
 constraint budget - sum(

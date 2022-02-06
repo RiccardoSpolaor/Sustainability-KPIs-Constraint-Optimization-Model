@@ -31,6 +31,7 @@ output [
   "Emissions: \(emissions)\n",
   "Time taken: \(sum(p in Products)(product_times[p] * n_products[p]))\n",
   "Current Machinery: \(actual_machinery)\n",
+  "Current Machinery: \(time_per_machinery)\n",
   "Number of sold products: \(["\(p): \(n_products[p])" | p in Products])\n",
   "Earnings: \(total_earnings)\n",
 ];

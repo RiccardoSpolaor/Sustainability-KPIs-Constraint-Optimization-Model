@@ -1,31 +1,31 @@
 % company_type = A;
 
 % The minimum earnings to obtain.
-budget = 4000;
-minimum_earnings = 8000;
-available_time_in_hours = 2500;
+budget = 1;
+minimum_earnings = 1;
+available_time_in_hours = 1760;
 
 % Co2 related constraints
-previous_year_co2 = 4000;
+previous_year_co2 = 0.2;
 Products = {Box, Recicled_Box};
 
-product_costs = [5, 9];
-product_selling_prices = [20, 22];
-co2_emissions = [8, 4];
-product_times = [4,7];
+product_costs = [0.00005, 0.00009];
+product_selling_prices = [0.02, 0.022];
+co2_emissions = [0.008, 0.004];
+product_times = [1,2];
 % an already recicled material is less reciclable than a non recicled one
 % optional parameter (default = [])
-product_reciclable_compositions = [0.9, 0.7];
+product_reciclable_compositions = [0.7, 0.7];
 % times_to_produce = [];
 % minimum_number_of_products_to_make = [];
 % raw_materials_of_products = [];
 
 % Maybe turn arrays in a big matrix
 Machinery = {M1, M2, M3};
-m_yearly_uses = [100, 200, 500];
+m_yearly_uses = [500, 600, 1000];
 m_energy_per_hours = [15.01, 15.01, 15.01];
 m_co2_per_hours = [0.02, 0.01, 0.0005];
-m_water_per_hours = [200, 200, 300];
+m_water_per_hours = [2, 2, 2];
 
 m_prices = [200, 250, 600];
 m_resell_prices = [100, 125, 300];
