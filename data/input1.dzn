@@ -2,7 +2,7 @@
 
 % The minimum earnings to obtain.
 budget = 12000;
-minimum_earnings = 12000;
+minimum_earnings = 17000;
 available_time_in_hours = 1760;
 
 % Co2 related constraints
@@ -35,5 +35,5 @@ max_n_machinery = 5;
 % m_linked_products = [|true, false|true, true|true,true|];
 % Should be <= sum(m_yearly_uses)
 starting_machinery = [2, 3, 0];
-max_hour_machine_usage = 5000;
+% max_hour_machine_usage = 5000;
 machine_budget = 800;
