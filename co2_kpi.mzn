@@ -3,9 +3,11 @@ include "constants.mzn";
 include "variables.mzn";
 
 var float: emission_products = sum(p in Products)(n_products[p] * co2_emissions[p]);
-var float: emission_machinery = sum([time_per_machinery[m] * actual_machinery[m] * m_co2_per_hours[m] | m in Machinery]);
+var float: emission_machinery = sum([m_yearly_actual_uses[m] * m_co2_per_hours[m] | m in Machinery]);
 var float: emissions = emission_products + emission_machinery;
-var 0.0..10.0: upper_bound_emmisions = previous_year_co2 * sum(time_per_machinery);
+% var 0.0..10.0: upper_bound_emmisions = previous_year_co2 * sum(time_per_machinery);
+
+constraint emissions < previous_year_co2;
 
 % Put as 0 if < 0
-var float: co2_kpi = relevances[CO2_KPI] * max([(1 - (emissions / previous_year_co2)), -1]);
+var float: co2_kpi = relevances[CO2_KPI] * max([(1 - (emissions / previous_year_co2)), 0]);

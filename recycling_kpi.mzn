@@ -14,7 +14,7 @@ constraint assert(
 );
 
 var 0.0..5.0: recycling_kpi = 
-  if sum(product_reciclable_compositions) != 0
+  if length(product_reciclable_compositions) != 0
     then relevances[Recycling_KPI] * sum(p in Products)(n_products[p] * product_reciclable_compositions[p]) / sum(n_products)
     else 0
   endif;

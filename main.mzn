@@ -19,7 +19,7 @@ include "earnings_and_costs.mzn";
 % The costs cannot overcome the budget [ToDo: Move the machines constraint in other places].
 % constraint budget - total_costs >= 0; 
 
-var float: total_kpi_percentage = 100 * (co2_kpi + recycling_kpi) / sum([relevances[p] | p in KPIs where used_kpis[p] = true]);
+var 0.0..100.0: total_kpi_percentage = 100 * (co2_kpi + recycling_kpi) / sum([relevances[p] | p in KPIs where used_kpis[p] = true]);
 
 solve maximize total_kpi_percentage;
 
@@ -31,7 +31,7 @@ output [
   "Emissions: \(emissions)\n",
   "Time taken: \(sum(p in Products)(product_times[p] * n_products[p]))\n",
   "Current Machinery: \(actual_machinery)\n",
-  "Current Machinery: \(time_per_machinery)\n",
+  "Time per Machinery: \(m_yearly_actual_uses)\n",
   "Number of sold products: \(["\(p): \(n_products[p])" | p in Products])\n",
   "Earnings: \(total_earnings)\n",
 ];

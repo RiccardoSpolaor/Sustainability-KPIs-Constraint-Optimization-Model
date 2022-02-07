@@ -2,11 +2,18 @@ include "parameters.mzn";
 include "variables.mzn";
 
 % ToDo if m_yearly_uses is changed with a variable that determines the actual use of the machines change that.
-constraint sum(p in Products)(product_times[p] * n_products[p]) <= sum([time_per_machinery[m] * actual_machinery[m] | m in Machinery]);
+% constraint sum(p in Products)(product_times[p] * n_products[p]) <= sum([time_per_machinery[m] * actual_machinery[m] | m in Machinery]);
 
 constraint sum(p in Products)(product_times[p] * n_products[p]) <= available_time_in_hours;
 
+% ToDo insert if we feel like it associates machines with products
 
+/*
+constraint let {
+  array[Machinery, Products] of var 0..10000: products_time_per_machinery; 
+} in forall(p in Products)(sum(products_time_per_machinery[..,p]) == product_times[p] * n_products[p])
+  /\ forall(m in Machinery)(sum(products_time_per_machinery[m,..]) == m_yearly_actual_uses[m]);
+*/
 
 %constraint forall(p in Products)
 %  (product_times[p] * n_products[p] <= sum([m_yearly_uses[m] | m in Machinery where m_linked_products[m,p] == true]));

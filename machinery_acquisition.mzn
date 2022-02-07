@@ -5,9 +5,15 @@ include "variables.mzn";
 constraint sum(m in Machinery)(starting_machinery[m]) <= max_n_machinery;
 constraint sum(m in Machinery)(actual_machinery[m]) <= max_n_machinery;
 
+constraint sum(m_yearly_actual_uses) <= sum([actual_machinery[m] * m_yearly_uses[m] | m in Machinery]);
+constraint forall(m in Machinery)(m_yearly_actual_uses[m] <= m_yearly_uses[m] * actual_machinery[m]);
+constraint sum(m_yearly_actual_uses) == sum(p in Products)(product_times[p] * n_products[p])
+
+/*
 constraint forall(m in Machinery)(actual_machinery[m] == false -> forall(p in Products) (machinery_n_products[m, p] = 0));
 constraint sum(machinery_n_products) == sum(n_products);
-constraint forall(m in Machinery)(time_per_machinery[m] <= m_yearly_uses[m]);
+constraint forall(m in Machinery)(time_per_machinery[m] * actual_machinery[m] <= m_yearly_uses[m]);
+*/
 
 /*
 constraint budget - sum(
