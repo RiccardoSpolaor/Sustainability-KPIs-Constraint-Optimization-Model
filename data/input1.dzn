@@ -1,12 +1,14 @@
 % company_type = A;
 
 % The minimum earnings to obtain.
-budget = 12000;
-minimum_earnings = 17000;
+budget = 8000;
+minimum_earnings = 9000;
 available_time_in_hours = 1760;
+current_year = 2020;
 
 % Co2 related constraints
-previous_year_co2 = 100;
+previous_year_co2 = 400;
+previous_year_energy_consumption = 240;
 
 Products = {Box, Recicled_Box};
 
@@ -24,7 +26,7 @@ product_reciclable_compositions = [0.5, 0.4];
 % Maybe turn arrays in a big matrix
 Machinery = {M1, M2, M3};
 m_yearly_uses = [500, 600, 900];
-m_energy_per_hours = [15.01, 15.01, 15.01];
+m_energy_per_hours = [0.2, 0.2, 0.4];
 m_co2_per_hours = [0.2, 0.01, 0.0005];
 m_water_per_hours = [2, 2, 2];
 

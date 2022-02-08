@@ -6,8 +6,12 @@ par 0..1000000: budget;
 par 0..1000000: minimum_earnings;
 /** Tons of C02 produced the previous year. */
 par 0.0..1000.0: previous_year_co2;
+/** KWatt of energy produced the previous year. */
+par 0.0..100000.0: previous_year_energy_consumption;
 /** Maximum available production time in hours. */
 par 0..10000: available_time_in_hours;
+/** Current year. */
+par 2010..2029: current_year;
 
 % ========================================= PRODUCTS DATA (MANDATORY) ==========================================
 
