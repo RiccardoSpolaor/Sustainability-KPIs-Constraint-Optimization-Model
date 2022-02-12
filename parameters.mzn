@@ -5,9 +5,9 @@ par 0..1000000: budget;
 /** Minimum earning to achieve from selling products measured in dollars ($). */
 par 0..1000000: minimum_earnings;
 /** Tons of C02 produced the previous year. */
-par 0.0..100000: previous_year_co2;
+par 0..100000: previous_year_co2;
 /** KWatt of energy produced the previous year. */
-par 0.0..100000: previous_year_energy_consumption;
+par 0..100000: previous_year_energy_consumption;
 /** Liters of water consumed the previous year. */
 par 0..100000: previous_year_water_consumption;
 /** Maximum available production time in hours. */
