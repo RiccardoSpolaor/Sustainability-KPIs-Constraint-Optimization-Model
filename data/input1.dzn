@@ -2,20 +2,20 @@
 
 % The minimum earnings to obtain.
 budget = 8000;
-minimum_earnings = 9000;
+minimum_earnings = 10000;
 available_time_in_hours = 1760;
 current_year = 2020;
 
 % Co2 related constraints
-previous_year_co2 = 400;
-previous_year_energy_consumption = 440;
-previous_year_water_consumption = 1600;
+previous_year_co2 = 12000;
+previous_year_energy_consumption = 7040;
+previous_year_water_consumption = 4000;
 
 Products = {Box, Recicled_Box};
 
 product_costs = [8, 9];
 product_selling_prices = [15, 13];
-co2_emissions = [0.1, 0.02];
+co2_emissions = [10, 2];
 product_times = [2,2];
 % an already recicled material is less reciclable than a non recicled one
 % optional parameter (default = [])
@@ -27,8 +27,8 @@ product_reciclable_compositions = [0.5, 0.4];
 % Maybe turn arrays in a big matrix
 Machinery = {M1, M2, M3};
 m_yearly_uses = [500, 600, 900];
-m_energy_per_hours = [0.2, 0.2, 0.4];
-m_co2_per_hours = [0.2, 0.01, 0.0005];
+m_energy_per_hours = [2, 2, 4];
+m_co2_per_hours = [20, 10, 5];
 m_water_per_hours = [2, 2, 2];
 
 m_prices = [200, 250, 600];
