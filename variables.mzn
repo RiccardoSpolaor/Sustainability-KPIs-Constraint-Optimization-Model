@@ -1,4 +1,5 @@
 include "parameters.mzn";
+include "constants.mzn";
 
 % ========================================= PRODUCTS RELATED VARIABLES =========================================
 
@@ -41,10 +42,17 @@ var 0..10000: machines_total_earnings = sum(m in Machinery where starting_machin
 );
 
 /** Variable float representing the total energy consumption of the actually owned equipment. */
-var 0.0..1000.0: machinery_total_consumption = sum(m in Machinery)(m_yearly_actual_uses[m] * m_energy_per_hours[m]);
+var 0.0..1000.0: machinery_total_energy_consumption = sum(m in Machinery)(m_yearly_actual_uses[m] * m_energy_per_hours[m]);
+
+/** Variable float representing the total water consumption of the actually owned equipment. */
+var 0.0..1000.0: machinery_total_water_consumption = sum(m in Machinery)(m_yearly_actual_uses[m] * m_water_per_hours[m]);
 
 
 % ============================================ KPIs RELATED VARIABLES ============================================
 
 /** Variable float representing the total emissions. */
 var 0.0..1000.0: emissions = products_total_emissions + machinery_total_emissions;
+
+
+array[KPIs] of var 0.0..5.0: kpis_ratio;
+

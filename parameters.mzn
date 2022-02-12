@@ -8,6 +8,8 @@ par 0..1000000: minimum_earnings;
 par 0.0..1000.0: previous_year_co2;
 /** KWatt of energy produced the previous year. */
 par 0.0..100000.0: previous_year_energy_consumption;
+/** Liters of water consumed the previous year. */
+par 0..100000: previous_year_water_consumption;
 /** Maximum available production time in hours. */
 par 0..10000: available_time_in_hours;
 /** Current year. */

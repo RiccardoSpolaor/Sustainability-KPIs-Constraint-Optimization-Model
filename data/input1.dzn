@@ -8,14 +8,15 @@ current_year = 2020;
 
 % Co2 related constraints
 previous_year_co2 = 400;
-previous_year_energy_consumption = 240;
+previous_year_energy_consumption = 440;
+previous_year_water_consumption = 1600;
 
 Products = {Box, Recicled_Box};
 
 product_costs = [8, 9];
 product_selling_prices = [15, 13];
 co2_emissions = [0.1, 0.02];
-product_times = [1,2];
+product_times = [2,2];
 % an already recicled material is less reciclable than a non recicled one
 % optional parameter (default = [])
 product_reciclable_compositions = [0.5, 0.4];

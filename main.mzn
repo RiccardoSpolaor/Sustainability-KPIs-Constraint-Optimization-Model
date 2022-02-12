@@ -7,36 +7,27 @@ include "parameters.mzn";
 include "variables.mzn";
 include "constants.mzn";
 include "constraints.mzn";
+include "functions.mzn";
 
 % ============================================== CO2 EMISSIONS KPI =============================================
 
-/** Variable float expressing the CO2 emissions KPI score. */
-par 0.0..1.0: emission_reduction_this_year_rate = (co2_reduction_by_2030_rate) / (goal_year - current_year);
-par 0.0..previous_year_co2: target_co2_this_year = %previous_year_energy_consumption - previous_year_energy_consumption * energy_reduction_by_2030_rate;
-  %previous_year_co2 - previous_year_co2 * emission_reduction_this_year_rate;
-previous_year_co2 - previous_year_co2 * co2_reduction_by_2030_rate;
-
-var -10.0..10.0: min_max_emissions = 1 - ((emissions - target_co2_this_year) / (previous_year_co2 - target_co2_this_year));
-
-var 0.0..1.0: normalized_total_emissions = min([max([min_max_emissions,0]), 1]);
-
-/** Variable float expressing the CO2 emissions KPI score. */
-var 0.0..relevances[CO2_KPI]: co2_kpi = relevances[CO2_KPI] * normalized_total_emissions;
+/* Variable float expressing the CO2 emissions KPI score. */
+constraint kpis_ratio[CO2_KPI] = relevances[CO2_KPI] * 
+  normalize_kpi(co2_reduction_by_2030_rate, emissions, previous_year_co2);
 
 % var 0.0..relevances[CO2_KPI]: co2_kpi = relevances[CO2_KPI] * max([(1 - (emissions / previous_year_co2)), 0]);
 
 % ============================================ ENERGY EFFICIENCY KPI ===========================================
 
-par 0.0..1.0: energy_reduction_this_year_rate = (energy_reduction_by_2030_rate) / (goal_year - current_year);
-par 0.0..previous_year_energy_consumption: target_energy_this_year = previous_year_energy_consumption - previous_year_energy_consumption * energy_reduction_by_2030_rate;
-  %previous_year_energy_consumption - previous_year_energy_consumption * energy_reduction_this_year_rate;
+/* Variable float expressing the CO2 emissions KPI score. */
+constraint kpis_ratio[Energy_Efficiency_KPI] == relevances[Energy_Efficiency_KPI] *
+  normalize_kpi(energy_reduction_by_2030_rate, machinery_total_energy_consumption, previous_year_energy_consumption);
 
-var -10.0..10.0: min_max_energy_consumption = 1 - ((machinery_total_consumption - target_energy_this_year) / (previous_year_energy_consumption - target_energy_this_year));
+% ============================================= WATER EFFICIENCY KPI ===========================================
 
-var 0.0..1.0: normalized_total_energy_consumption = min([max([min_max_energy_consumption,0]), 1]);
-
-/** Variable float expressing the CO2 emissions KPI score. */
-var 0.0..relevances[Energy_Efficiency_KPI]: energy_efficiency_kpi = relevances[Energy_Efficiency_KPI] * normalized_total_energy_consumption;
+/* Variable float expressing the CO2 emissions KPI score. */
+constraint kpis_ratio[Water_Consumption_KPI] == relevances[Water_Consumption_KPI] *
+  normalize_kpi(water_reduction_by_2030_rate, machinery_total_water_consumption, previous_year_water_consumption);
 
 % ================================================ RECICLING KPI ===============================================
 
@@ -45,34 +36,49 @@ constraint assert(
   "product_reciclable_compositions must be an empty array or an array that has the same length as Products"
 );
 
-/** Variable float expressing the Recicling KPI score. */
-var 0.0..relevances[Recycling_KPI]: recycling_kpi = 
+/* Variable float expressing the Recicling KPI score. */
+constraint kpis_ratio[Recycling_KPI] == 
   if length(product_reciclable_compositions) != 0
     then relevances[Recycling_KPI] * sum(p in Products)(n_products[p] * product_reciclable_compositions[p]) / sum(n_products)
     else 0
   endif;
 
+% ========================================== EQUIPMENT REJECT RATE KPI =========================================
+
+/* Variable float expressing the Recicling KPI score. */
+constraint kpis_ratio[Equipment_Reject_KPI] == relevances[Equipment_Reject_KPI] * 
+  (1 - sum(m in Machinery where starting_machinery[m] < actual_machinery[m])(abs(starting_machinery[m] - actual_machinery[m])) /
+  sum(starting_machinery));
+
 
 % ================================================== SOLUTION ==================================================
 
+% constraint forall(k in 1..card(KPIs) - 1)(kpis_ratio[to_enum(KPIs, k)] >= kpis_ratio[to_enum(KPIs, k + 1)]);
+
+%var 0.0..100.0: total_kpi_percentage = 100 * sum(p in KPIs where used_kpis[p] = true)(kpis_ratio[p]) / 
+%  sum(p in KPIs where used_kpis[p] = true)(relevances[p]);
+
+solve maximize sum(p in 1..card(KPIs) - 1)(kpis_ratio[to_enum(KPIs, p)] * relevances[to_enum(KPIs, p + 1)]) + kpis_ratio[Recycling_KPI];
+
 /** Variable float expressing the total KPI percentage. */
-var 0.0..100.0: total_kpi_percentage = 100 * (co2_kpi + recycling_kpi + energy_efficiency_kpi) / 
+var 0.0..100.0: total_kpi_percentage = 100 * sum(p in KPIs where used_kpis[p] = true)(kpis_ratio[p]) / 
   sum(p in KPIs where used_kpis[p] = true)(relevances[p]);
-
-solve maximize total_kpi_percentage;
-
+  
 % =================================================== OUTPUT ===================================================
 
 output [
-  "machinery_total_consumption \(machinery_total_consumption) \n",
-  "target consumption \(target_energy_this_year) \n",
+  "Energy Consumption \(machinery_total_energy_consumption) \n",
+  "Water Consumption \(machinery_total_water_consumption) \n",
+  "CO2 Emissions: \(emissions)\n",
+  % "target consumption \(target_energy_this_year) \n",
   "Initial budget: \(budget)\n", 
   "Total KPI percentage: \(total_kpi_percentage)%\n",
-  "Co2 KPI: \(co2_kpi)\n", 
-  "Energy Efficiency KPI: \(energy_efficiency_kpi)\n", 
-  "Recycling KPI: \(recycling_kpi)\n",
-  "Emissions: \(emissions)\n",
-    "target emissions \(target_co2_this_year) \n",
+  "Co2 KPI: \(kpis_ratio[CO2_KPI])\n", 
+  "Energy Efficiency KPI: \(kpis_ratio[Energy_Efficiency_KPI])\n", 
+  "Recycling KPI: \(kpis_ratio[Recycling_KPI])\n",
+  "Water KPI: \(kpis_ratio[Water_Consumption_KPI])\n",
+  "Equipment Reject Rate KPI \(kpis_ratio[Equipment_Reject_KPI] )\n",
+  %   "target emissions \(target_co2_this_year) \n",
   "Time taken: \(products_total_time)\n",
   "Current Machinery: \(actual_machinery)\n",
   "Time per Machinery: \(m_yearly_actual_uses)\n",
