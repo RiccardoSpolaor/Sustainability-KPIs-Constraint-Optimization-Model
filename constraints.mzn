@@ -19,6 +19,6 @@ constraint products_total_time <= available_time_in_hours;
 /* The costs cannot overcome the budget. */
 % constraint budget - total_costs >= 0; 
 /* The equipment cost cannot overcome the equipment budget. */
-constraint machine_budget + machines_total_costs >= 0;
+constraint machine_budget + machines_total_earnings - machines_total_costs >= 0;
 /* The total earnings must be greater or equal than the minimum decided earnings. */
 %constraint total_earnings >= minimum_earnings;

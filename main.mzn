@@ -16,16 +16,12 @@ par 0.0..previous_year_co2: target_co2_this_year = %previous_year_energy_consump
   %previous_year_co2 - previous_year_co2 * emission_reduction_this_year_rate;
 previous_year_co2 - previous_year_co2 * co2_reduction_by_2030_rate;
 
-var 0.0..1.0: normalized_m_total_emissions = 
-  min(
-    [
-      max([1-((emissions - target_co2_this_year)/ (previous_year_co2 - target_co2_this_year)),0]),     
-      1
-    ]
-  );
+var -10.0..10.0: min_max_emissions = 1 - ((emissions - target_co2_this_year) / (previous_year_co2 - target_co2_this_year));
+
+var 0.0..1.0: normalized_total_emissions = min([max([min_max_emissions,0]), 1]);
 
 /** Variable float expressing the CO2 emissions KPI score. */
-var 0.0..relevances[CO2_KPI]: co2_kpi = relevances[CO2_KPI] * normalized_m_total_emissions;
+var 0.0..relevances[CO2_KPI]: co2_kpi = relevances[CO2_KPI] * normalized_total_emissions;
 
 % var 0.0..relevances[CO2_KPI]: co2_kpi = relevances[CO2_KPI] * max([(1 - (emissions / previous_year_co2)), 0]);
 
@@ -35,16 +31,12 @@ par 0.0..1.0: energy_reduction_this_year_rate = (energy_reduction_by_2030_rate) 
 par 0.0..previous_year_energy_consumption: target_energy_this_year = previous_year_energy_consumption - previous_year_energy_consumption * energy_reduction_by_2030_rate;
   %previous_year_energy_consumption - previous_year_energy_consumption * energy_reduction_this_year_rate;
 
-var 0.0..1.0: normalized_m_total_cons = 
-  min(
-    [
-      max([1-((machinery_total_consumption - target_energy_this_year)/ (previous_year_energy_consumption- target_energy_this_year)),0]),     
-      1
-    ]
-  );
+var -10.0..10.0: min_max_energy_consumption = 1 - ((machinery_total_consumption - target_energy_this_year) / (previous_year_energy_consumption - target_energy_this_year));
+
+var 0.0..1.0: normalized_total_energy_consumption = min([max([min_max_energy_consumption,0]), 1]);
 
 /** Variable float expressing the CO2 emissions KPI score. */
-var 0.0..relevances[Energy_Efficiency_KPI]: energy_efficiency_kpi = relevances[Energy_Efficiency_KPI] * normalized_m_total_cons;
+var 0.0..relevances[Energy_Efficiency_KPI]: energy_efficiency_kpi = relevances[Energy_Efficiency_KPI] * normalized_total_energy_consumption;
 
 % ================================================ RECICLING KPI ===============================================
 
@@ -64,7 +56,8 @@ var 0.0..relevances[Recycling_KPI]: recycling_kpi =
 % ================================================== SOLUTION ==================================================
 
 /** Variable float expressing the total KPI percentage. */
-var 0.0..100.0: total_kpi_percentage = 100 * (co2_kpi + recycling_kpi + energy_efficiency_kpi) / sum([relevances[p] | p in KPIs where used_kpis[p] = true]);
+var 0.0..100.0: total_kpi_percentage = 100 * (co2_kpi + recycling_kpi + energy_efficiency_kpi) / 
+  sum(p in KPIs where used_kpis[p] = true)(relevances[p]);
 
 solve maximize total_kpi_percentage;
 
@@ -73,7 +66,6 @@ solve maximize total_kpi_percentage;
 output [
   "machinery_total_consumption \(machinery_total_consumption) \n",
   "target consumption \(target_energy_this_year) \n",
-  "NORM: \(normalized_m_total_cons)\n",
   "Initial budget: \(budget)\n", 
   "Total KPI percentage: \(total_kpi_percentage)%\n",
   "Co2 KPI: \(co2_kpi)\n", 

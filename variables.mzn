@@ -19,7 +19,7 @@ var 0.0..1000.0: products_total_emissions = sum(p in Products)(n_products[p] * c
 /** Variable integer expressing the total earnings. */
 var minimum_earnings..100000: total_earnings = product_total_earnings;
 /** Variable integer expressing the total costs. */
-var 0..budget: total_costs = product_total_costs;
+var 0..budget-machine_budget: total_costs = product_total_costs;
 
 % ========================================= EQUIPMENT RELATED VARIABLES =========================================
 
@@ -29,15 +29,17 @@ array[Machinery] of var 0..max_n_machinery: actual_machinery;
 array[Machinery] of var 0..10000: m_yearly_actual_uses;
 /** Variable float representing the total emissions of the actually owned equipment. */
 var 0.0..1000.0: machinery_total_emissions = sum(m in Machinery)(m_yearly_actual_uses[m] * m_co2_per_hours[m]);
-/** Variable integer representing the total costs of the equipment (difference between bought and sold). */
-var -10000..10000: machines_total_costs = sum(
-  [
-    if starting_machinery[m] > actual_machinery[m] 
-      then m_resell_prices[m] * abs(starting_machinery[m] - actual_machinery[m])
-      else -m_prices[m] * abs(starting_machinery[m] - actual_machinery[m])
-    endif | m in Machinery
-  ]
+
+/** Variable integer representing the total costs of the equipment. */
+var 0..10000: machines_total_costs = sum(m in Machinery where starting_machinery[m] > actual_machinery[m])(
+  m_resell_prices[m] * abs(starting_machinery[m] - actual_machinery[m])
 );
+
+/** Variable integer representing the total earnings on the equipment. */
+var 0..10000: machines_total_earnings = sum(m in Machinery where starting_machinery[m] <= actual_machinery[m])(
+  m_prices[m] * abs(starting_machinery[m] - actual_machinery[m])
+);
+
 /** Variable float representing the total energy consumption of the actually owned equipment. */
 var 0.0..1000.0: machinery_total_consumption = sum(m in Machinery)(m_yearly_actual_uses[m] * m_energy_per_hours[m]);
 

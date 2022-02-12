@@ -49,7 +49,7 @@ par 0..100: max_n_machinery;
 % par float: max_hour_machine_usage; % [ToDo: decide how to handle]
 %array[Machinery, Products] of var bool: m_linked_products; %ToDo insert if we feel like it associates machines with products
 /** Integer expressing the budget for purchasing new pieces of equipment. */
-par 0..10000: machine_budget;
+par 0..budget: machine_budget;
 
 % ==================================== RECYCLABILITY DATA (NON MANDATORY) ======================================
 /** Array of float representing the recyclable composition [0,1] for each product. (N/D = []) */
