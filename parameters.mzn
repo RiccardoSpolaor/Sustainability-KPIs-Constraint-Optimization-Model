@@ -18,7 +18,7 @@ par 2010..2029: current_year;
 % ========================================= PRODUCTS DATA (MANDATORY) ==========================================
 
 /** Products that the company sells. */
-enum Products;
+par set of int: Products;
 /** Array of integer expressing the cost to make each product. */
 array[Products] of par 0..10000: product_costs;
 /** Array of integer expressing the selling price for each product. */
@@ -31,7 +31,7 @@ array[Products] of par 0..1000: product_times;
 % ======================================== EQUIPMENT DATA (MANDATORY) ==========================================
 
 /** Possible equipment. */
-enum Machinery;
+par set of int: Machinery;
 /** Array of integer expressing the maximum yearly usage in hours of each piece of equipment. */
 array[Machinery] of par 0..10000: m_yearly_uses;
 /** Array of float expressing the KW/h consumed by each piece of equipment. */

@@ -3,16 +3,17 @@
 % Use enums to name the various products (large manual page 38)
 % list comprehension (large manual page 42)
 
+include "minisearch.mzn";
 include "parameters.mzn";
-include "variables.mzn";
 include "constants.mzn";
+include "variables.mzn";
 include "constraints.mzn";
 include "functions.mzn";
 
 % ============================================== CO2 EMISSIONS KPI =============================================
 
 /* Variable float expressing the CO2 emissions KPI score. */
-constraint kpis_ratio[CO2_KPI] = relevances[CO2_KPI] * 
+constraint kpis_ratio[CO2_KPI] = 100 * relevances[CO2_KPI] * 
   normalize_kpi(co2_reduction_by_2030_rate, emissions, previous_year_co2);
 
 % var 0.0..relevances[CO2_KPI]: co2_kpi = relevances[CO2_KPI] * max([(1 - (emissions / previous_year_co2)), 0]);
@@ -20,13 +21,13 @@ constraint kpis_ratio[CO2_KPI] = relevances[CO2_KPI] *
 % ============================================ ENERGY EFFICIENCY KPI ===========================================
 
 /* Variable float expressing the CO2 emissions KPI score. */
-constraint kpis_ratio[Energy_Efficiency_KPI] == relevances[Energy_Efficiency_KPI] *
+constraint kpis_ratio[Energy_Efficiency_KPI] == 100 * relevances[Energy_Efficiency_KPI] *
   normalize_kpi(energy_reduction_by_2030_rate, machinery_total_energy_consumption, previous_year_energy_consumption);
 
 % ============================================= WATER EFFICIENCY KPI ===========================================
 
 /* Variable float expressing the CO2 emissions KPI score. */
-constraint kpis_ratio[Water_Consumption_KPI] == relevances[Water_Consumption_KPI] *
+constraint kpis_ratio[Water_Consumption_KPI] == 100 * relevances[Water_Consumption_KPI] *
   normalize_kpi(water_reduction_by_2030_rate, machinery_total_water_consumption, previous_year_water_consumption);
 
 % ================================================ RECICLING KPI ===============================================
@@ -39,14 +40,14 @@ constraint assert(
 /* Variable float expressing the Recicling KPI score. */
 constraint kpis_ratio[Recycling_KPI] == 
   if length(product_reciclable_compositions) != 0
-    then relevances[Recycling_KPI] * sum(p in Products)(n_products[p] * product_reciclable_compositions[p]) / sum(n_products)
+    then 100 * relevances[Recycling_KPI] * sum(p in Products)(n_products[p] * product_reciclable_compositions[p]) / sum(n_products)
     else 0
   endif;
 
 % ========================================== EQUIPMENT REJECT RATE KPI =========================================
 
 /* Variable float expressing the Recicling KPI score. */
-constraint kpis_ratio[Equipment_Reject_KPI] == relevances[Equipment_Reject_KPI] * 
+constraint kpis_ratio[Equipment_Reject_KPI] == relevances[Equipment_Reject_KPI] * 100 * 
   (1 - sum(m in Machinery where starting_machinery[m] < actual_machinery[m])(abs(starting_machinery[m] - actual_machinery[m])) /
   sum(starting_machinery));
 
@@ -58,11 +59,17 @@ constraint kpis_ratio[Equipment_Reject_KPI] == relevances[Equipment_Reject_KPI] 
 %var 0.0..100.0: total_kpi_percentage = 100 * sum(p in KPIs where used_kpis[p] = true)(kpis_ratio[p]) / 
 %  sum(p in KPIs where used_kpis[p] = true)(relevances[p]);
 
-solve maximize sum(p in 1..card(KPIs) - 1)(kpis_ratio[to_enum(KPIs, p)] * relevances[to_enum(KPIs, p + 1)]) + kpis_ratio[Recycling_KPI];
+%solve maximize sum(p in 1..card(KPIs) - 1)(kpis_ratio[to_enum(KPIs, p)] * relevances[to_enum(KPIs, p + 1)]) + kpis_ratio[Recycling_KPI];
+% solve maximize_lex(kpis_ratio)
+
+% array[KPIs] of int: min_values = [round(relevances[to_enum(KPIs, p + 1)]) | p in 1..card(KPIs)-1] ++ [0];
+
+% solve :: int_search(min_values, input_order, indomain_reverse_split, complete) maximize sum(kpis_ratio);
+solve search minimize_lex([-kpis_ratio[k] | k in KPIs]);
 
 /** Variable float expressing the total KPI percentage. */
-var 0.0..100.0: total_kpi_percentage = 100 * sum(p in KPIs where used_kpis[p] = true)(kpis_ratio[p]) / 
-  sum(p in KPIs where used_kpis[p] = true)(relevances[p]);
+var 0.0..100.0: total_kpi_percentage = sum(p in KPIs where used_kpis[p] = true)(kpis_ratio[p]) /
+  sum(p in KPIs where used_kpis[p] = true)(relevances[p] * 100);
   
 % =================================================== OUTPUT ===================================================
 

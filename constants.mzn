@@ -1,6 +1,12 @@
 include "parameters.mzn";
-/* Constants */
-enum KPIs = {CO2_KPI, Energy_Efficiency_KPI, Water_Consumption_KPI, Recycling_KPI, Equipment_Reject_KPI};
+
+int: CO2_KPI = 1;
+int: Energy_Efficiency_KPI = 2;
+int: Water_Consumption_KPI = 3;
+int: Recycling_KPI = 4; 
+int: Equipment_Reject_KPI = 5;
+
+par set of int: KPIs = CO2_KPI..Equipment_Reject_KPI;
 
 array[KPIs] of par 0.0..5.0: relevances = [4.31, 4.42, 4.06, 3.91, 3.68];
 

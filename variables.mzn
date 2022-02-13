@@ -54,5 +54,5 @@ var 0..10000: machinery_total_water_consumption = sum(m in Machinery)(m_yearly_a
 var 0..10000: emissions = products_total_emissions + machinery_total_emissions;
 
 
-array[KPIs] of var 0.0..5.0: kpis_ratio;
+array[KPIs] of var 0..500: kpis_ratio;
 
