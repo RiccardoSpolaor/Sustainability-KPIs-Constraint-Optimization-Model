@@ -1,10 +1,10 @@
 include "parameters.mzn";
 /* Constants */
-enum KPIs = {CO2_KPI, Energy_Efficiency_KPI, Water_Consumption_KPI, Recycling_KPI, Equipment_Reject_KPI};
+enum KPIs = {Energy_Efficiency_KPI, CO2_KPI, Certifications_KPI, Water_Consumption_KPI, Recycling_KPI, Equipment_Reject_KPI};
 
-array[KPIs] of par 0.0..5.0: relevances = [4.31, 4.42, 4.06, 3.91, 3.68];
+array[KPIs] of par 0.0..5.0: relevances = [4.42, 4.31, 4.20, 4.06, 3.91, 3.68];
 
-array[KPIs] of par bool: used_kpis = [true, true, true, if length(product_reciclable_compositions) == 0 then false else true endif, true];
+array[KPIs] of par bool: used_kpis = [true, true, true, true, if length(product_reciclable_compositions) == 0 then false else true endif, true];
 
 par 2030..2030: goal_year = 2030;
 

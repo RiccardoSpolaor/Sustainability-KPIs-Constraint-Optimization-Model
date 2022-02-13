@@ -1,7 +1,7 @@
 % company_type = A;
 
 % The minimum earnings to obtain.
-budget = 8000;
+budget = 9000;
 minimum_earnings = 10000;
 available_time_in_hours = 1760;
 current_year = 2020;
@@ -40,3 +40,9 @@ max_n_machinery = 5;
 starting_machinery = [2, 3, 0];
 % max_hour_machine_usage = 5000;
 machine_budget = 800;
+
+Certifications = {C1, C2, C3};
+certifications_cost = [100, 500, 20];
+certifications_time_to_earn = [32, 48, 16];
+certifications_weight = [5, 10, 1];
+starting_certifications = [false, false, false];

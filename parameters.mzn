@@ -53,6 +53,12 @@ par 0..100: max_n_machinery;
 /** Integer expressing the budget for purchasing new pieces of equipment. */
 par 0..budget: machine_budget;
 
+enum Certifications;
+array[Certifications] of par int: certifications_cost;
+array[Certifications] of par int: certifications_time_to_earn;
+array[Certifications] of par int: certifications_weight;
+array[Certifications] of par bool: starting_certifications;
+
 % ==================================== RECYCLABILITY DATA (NON MANDATORY) ======================================
 /** Array of float representing the recyclable composition [0,1] for each product. (N/D = []) */
 array[int] of par 0.0..1.0: product_reciclable_compositions;
