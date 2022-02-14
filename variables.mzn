@@ -1,15 +1,25 @@
 include "parameters.mzn";
 include "constants.mzn";
+include "functions.mzn";
 
 % ============================================ KPIS RELATED VARIABLES ==========================================
 
 /** Array of variable floats containing for each KPI the score achieved by the company. */
 array[KPIs] of var 0.0..5.0: kpis_ratio;
 
+/** Variable float expressing the total CO2 emissions during production. */
+var 0..10000: total_production_co2_emissions = products_total_emissions() + machinery_total_emissions();
+
 % ========================================= PRODUCTS RELATED VARIABLES =========================================
 
 /** Array of variable integers containing for each item the number of units actually produced. */
 array[Products] of var 0..50000: n_products;
+
+/** Variable integer expressing the total earnings. */
+var minimum_earnings..100000: total_earnings = product_total_earnings();
+
+/** Variable integer expressing the total hours of production. */
+var 0..available_time_in_hours: production_total_time = sum(p in Products)(product_times[p] * n_products[p]);
 
 % ========================================= EQUIPMENT RELATED VARIABLES =========================================
 

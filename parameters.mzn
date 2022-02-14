@@ -18,6 +18,9 @@ par 0..1000000: previous_year_water_consumption;
 /** Integer expressing the maximum available production time in hours. */
 par 0..10000: available_time_in_hours;
 
+/** Integer representing the years to reach the reduction goals */
+par 1..10: years_to_reach_the_reduction_goals;
+
 % ========================================= PRODUCTS DATA (MANDATORY) ==========================================
 
 /** Enum expressing the products that the company sells. */

@@ -2,18 +2,20 @@
 
 % The minimum earnings to obtain.
 budget = 9000;
-minimum_earnings = 9000;
+minimum_earnings = 11000;
 available_time_in_hours = 1760;
 
 % Co2 related constraints
-previous_year_co2 = 12000;
-previous_year_energy_consumption = 7040;
-previous_year_water_consumption = 4000;
+previous_year_co2 = 10000;
+previous_year_energy_consumption = 4040;
+previous_year_water_consumption = 2700;
+
+years_to_reach_the_reduction_goals = 5;
 
 Products = {Box, Recicled_Box};
 
 product_costs = [8, 9];
-product_selling_prices = [15, 13];
+product_selling_prices = [16, 18];
 co2_emissions = [10, 2];
 product_times = [2,2];
 % an already recicled material is less reciclable than a non recicled one

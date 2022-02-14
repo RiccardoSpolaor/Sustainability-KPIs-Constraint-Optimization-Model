@@ -14,10 +14,10 @@ constraint sum(m in Machinery)(actual_machinery[m]) <= max_n_machinery;
 constraint forall(m in Machinery)(m_yearly_actual_uses[m] <= m_yearly_uses[m] * actual_machinery[m]);
 
 /* The total usage of the equipment must be strictly equal to the total production time of the items. */
-constraint sum(m_yearly_actual_uses) == products_total_time();
+constraint sum(m_yearly_actual_uses) == production_total_time;
 
 /* The total time to produce the items must be less or equal than the total available time for production. */
-constraint products_total_time() + get_certifications_total_time() <= available_time_in_hours;
+constraint production_total_time + get_certifications_total_time() <= available_time_in_hours;
 
 
 % ======================= CERTIFICATIONS ============================
@@ -32,7 +32,7 @@ constraint budget - total_costs() >= 0;
 constraint machine_budget + machines_total_earnings() - machines_total_costs() >= 0;
 
 /* The total earnings must be greater or equal than the minimum expected earnings. */
-constraint total_earnings() >= minimum_earnings;
+constraint total_earnings >= minimum_earnings;
 
 
 /*
