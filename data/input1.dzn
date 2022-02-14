@@ -4,7 +4,6 @@
 budget = 9000;
 minimum_earnings = 9000;
 available_time_in_hours = 1760;
-current_year = 2020;
 
 % Co2 related constraints
 previous_year_co2 = 12000;
@@ -49,4 +48,4 @@ starting_certifications = [false, false, false];
 
 use_logistics_kpis = true;
 products_travel_distance = 5000;
-products_delivery_total_time = 5000;
+% products_delivery_total_time = 5000;

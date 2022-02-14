@@ -38,13 +38,14 @@ predicate forbid_transportation_means() =
     (products_travel_distance < travel_means_km_per_hour[Ship] * 2 -> travel_means_used[Plane] == 0))
   endif;
 
+/*
 predicate respect_total_delivery_time() =
   if use_logistics_kpis == false 
     then true 
   else
     sum(t in Travel_Means)(travel_means_used[t] * (products_travel_distance div travel_means_km_per_hour[t])) <= products_delivery_total_time
   endif;
-
+*/
 predicate respect_total_transportation_capacity() =
   if use_logistics_kpis == false 
     then true 
