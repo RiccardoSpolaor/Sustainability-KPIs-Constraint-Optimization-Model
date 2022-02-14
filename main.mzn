@@ -24,7 +24,7 @@ constraint kpis_ratio[Energy_Efficiency_KPI] == relevances[Energy_Efficiency_KPI
 */
 predicate transportation_mode_score() = 
   if used_kpis[Transportation_Mode_KPI] == true
-    then kpis_ratio[Transportation_Mode_KPI] = (relevances[Transportation_Mode_KPI] * travel_means_quality_weigth * sum(t in Travel_Means)(travel_means_quality[t] * travel_means_consumption_efficiency_weight * travel_means_consumption_efficiency[t] * travel_means_used[t]) / (travel_means_quality_weigth * travel_means_consumption_efficiency_weight * sum(travel_means_used)))
+    then kpis_ratio[Transportation_Mode_KPI] = (relevances[Transportation_Mode_KPI] * sum(t in Travel_Means)(travel_means_quality_weigth * travel_means_quality[t] * travel_means_consumption_efficiency_weight * travel_means_consumption_efficiency[t] * travel_means_used[t]) / (travel_means_quality_weigth * travel_means_consumption_efficiency_weight * sum(travel_means_used)))
     else kpis_ratio[Transportation_Mode_KPI] = 0
   endif;
 
@@ -37,7 +37,7 @@ constraint transportation_mode_score();
 constraint kpis_ratio[Water_Consumption_KPI] == relevances[Water_Consumption_KPI] *
   normalize_kpi(water_reduction_by_2030_rate, machinery_total_water_consumption, previous_year_water_consumption);
 
-% ============================================ Transportation Mode KPI ===========================================
+% ======================================== TRANSPORTATION CAPACITY SCORE =======================================
 
 /** 
   Predicate that normalizes the Transporation Capacity score and multiplies it by the Transporation Capacity KPI relevance.
