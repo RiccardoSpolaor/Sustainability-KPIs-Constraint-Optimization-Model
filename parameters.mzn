@@ -55,7 +55,7 @@ array[Machinery] of par 0..10000: m_prices;
 /** Array of integers expressing the price in dollars ($) earned by disposing each piece of equipment. */
 array[Machinery] of par 0..10000: m_resell_prices;
 
-/** Array of integers expressing the number of units of piece of equipment that the company owns. */
+/** Array of integers expressing the number of units of pieces of equipment that the company owns before starting production. */
 array[Machinery] of par 0..max_n_machinery: starting_machinery;
 
 /** Array of integers expressing the CO2 Kg/h that each piece of equipment generates. */
@@ -74,6 +74,7 @@ array[Certifications] of par int: certifications_weight;
 array[Certifications] of par bool: starting_certifications;
 
 % ==================================== RECYCLABILITY DATA (NON MANDATORY) ======================================
+
 /** Array of floats representing the recyclable composition ratio (between 0 and 1) for each item (N/D = []). */
 array[int] of par 0.0..1.0: product_reciclable_compositions;
 
