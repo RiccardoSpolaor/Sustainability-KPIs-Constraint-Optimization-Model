@@ -2,7 +2,7 @@
 
 % The minimum earnings to obtain.
 budget = 9000;
-minimum_earnings = 10000;
+minimum_earnings = 9000;
 available_time_in_hours = 1760;
 current_year = 2020;
 
@@ -46,3 +46,7 @@ certifications_cost = [100, 500, 20];
 certifications_time_to_earn = [32, 48, 16];
 certifications_weight = [5, 10, 1];
 starting_certifications = [false, false, false];
+
+use_logistics_kpis = true;
+products_travel_distance = 5000;
+products_delivery_total_time = 5000;

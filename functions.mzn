@@ -21,7 +21,7 @@ function var 0..10000: products_total_emissions = sum(p in Products)(n_products[
 /** Variable integer expressing the total earnings. */
 function var minimum_earnings..100000: total_earnings = product_total_earnings();
 /** Variable integer expressing the total costs. */
-function var 0..budget: total_costs = product_total_costs() + get_certifications_total_costs() + machine_budget;
+function var 0..budget: total_costs = product_total_costs() + get_certifications_total_costs() + machine_budget + get_logistics_total_costs();
 
 /** Variable float representing the total emissions of the actually owned equipment. */
 function var 0..10000: machinery_total_emissions = sum(m in Machinery)(m_yearly_actual_uses[m] * m_co2_per_hours[m]);
@@ -37,11 +37,8 @@ function var 0..10000: machines_total_costs = sum(m in Machinery where starting_
 );
 
 
-/** Variable float representing the total energy consumption of the actually owned equipment. */
-function var 0..10000: machinery_total_energy_consumption = sum(m in Machinery)(m_yearly_actual_uses[m] * m_energy_per_hours[m]);
-
-/** Variable float representing the total water consumption of the actually owned equipment. */
-function var 0..10000: machinery_total_water_consumption = sum(m in Machinery)(m_yearly_actual_uses[m] * m_water_per_hours[m]);
+/* Variable float representing the total energy consumption of the actually owned equipment. */
+%function var 0..10000: machinery_total_energy_consumption = sum(m in Machinery)(m_yearly_actual_uses[m] * m_energy_per_hours[m]);
 
 /** Variable float representing the total emissions. */
 function var 0..10000: emissions = products_total_emissions() + machinery_total_emissions();
@@ -51,3 +48,8 @@ function var 0..10000: emissions = products_total_emissions() + machinery_total_
 function var 0..100000: get_certifications_total_time = sum(c in Certifications where starting_certifications[c] == false /\ actual_certifications[c] == true)(certifications_time_to_earn[c]);
 
 function var 0..100000: get_certifications_total_costs = sum(c in Certifications where starting_certifications[c] == false /\ actual_certifications[c] == true)(certifications_cost[c]);
+
+function var 0..100000: get_logistics_total_costs = if use_logistics_kpis == true then sum (t in Travel_Means)(
+  travel_means_cost_per_hour[t] * travel_means_used[t]) % * (products_travel_distance div travel_means_km_per_hour[t]))
+  else 0 endif;
+  

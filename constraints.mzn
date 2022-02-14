@@ -27,3 +27,54 @@ constraint budget - total_costs() >= 0;
 constraint machine_budget + machines_total_earnings() - machines_total_costs() >= 0;
 /* The total earnings must be greater or equal than the minimum decided earnings. */
 constraint total_earnings() >= minimum_earnings;
+
+
+
+predicate forbid_transportation_means() =
+  if use_logistics_kpis == false 
+    then true 
+  else
+    ((products_travel_distance < travel_means_km_per_hour[Plane] * 3 -> travel_means_used[Plane] == 0) /\ 
+    (products_travel_distance < travel_means_km_per_hour[Ship] * 2 -> travel_means_used[Plane] == 0))
+  endif;
+
+predicate respect_total_delivery_time() =
+  if use_logistics_kpis == false 
+    then true 
+  else
+    sum(t in Travel_Means)(travel_means_used[t] * (products_travel_distance div travel_means_km_per_hour[t])) <= products_delivery_total_time
+  endif;
+
+predicate respect_total_transportation_capacity() =
+  if use_logistics_kpis == false 
+    then true 
+  else
+    forall(t in Travel_Means)(travel_means_assigned_products[t] <= travel_means_capacity[t] * travel_means_used[t])
+  endif;
+  
+predicate deliver_all_products() =
+  if use_logistics_kpis == false 
+    then true 
+  else
+    sum(n_products) == sum(travel_means_assigned_products)
+  endif;
+  
+% Travel means
+/* Ships and Planes are used just if there is a lot to travel */
+% constraint use_logistics_kpis = true -> (products_travel_distance < travel_means_km_per_hour[Plane] * 3 -> travel_means_used[Plane] == 0);
+% constraint use_logistics_kpis = true -> (products_travel_distance < travel_means_km_per_hour[Ship] * 2 -> travel_means_used[Plane] == 0);
+
+
+constraint forbid_transportation_means();
+% constraint respect_total_delivery_time();
+constraint respect_total_transportation_capacity();
+constraint deliver_all_products();
+
+/* Shipment times must be respected */
+% constraint use_logistics_kpis = true -> (sum(t in Travel_Means)(travel_means_used[t] * (products_travel_distance / travel_means_km_per_hour[t])) <= products_delivery_total_time); 
+
+/* All products must be shipped */
+%constraint use_logistics_kpis = true -> (sum(n_products) == sum(travel_means_assigned_products));
+
+/* The products cannot overcome the capacity of the single means of transportation */
+%constraint use_logistics_kpis = true -> (forall(t in Travel_Means)(travel_means_assigned_products[t] <= travel_means_capacity[t] * travel_means_used[t]));

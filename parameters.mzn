@@ -62,3 +62,10 @@ array[Certifications] of par bool: starting_certifications;
 % ==================================== RECYCLABILITY DATA (NON MANDATORY) ======================================
 /** Array of float representing the recyclable composition [0,1] for each product. (N/D = []) */
 array[int] of par 0.0..1.0: product_reciclable_compositions;
+
+par bool: use_logistics_kpis;
+par opt 0..100000: products_travel_distance;
+par opt 0..100000: products_delivery_total_time;
+
+constraint assert(use_logistics_kpis == true -> products_travel_distance != <>, "Insert the travel distance of the products.");
+constraint assert(use_logistics_kpis == true -> products_delivery_total_time != <>, "Insert the total delivery time the products.");

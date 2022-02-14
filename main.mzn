@@ -21,13 +21,37 @@ constraint kpis_ratio[CO2_KPI] = relevances[CO2_KPI] *
 
 /* Variable float expressing the CO2 emissions KPI score. */
 constraint kpis_ratio[Energy_Efficiency_KPI] == relevances[Energy_Efficiency_KPI] *
-  normalize_kpi(energy_reduction_by_2030_rate, machinery_total_energy_consumption(), previous_year_energy_consumption);
+  normalize_kpi(energy_reduction_by_2030_rate, machinery_total_energy_consumption, previous_year_energy_consumption);
+
+% ============================================ Transportation Mode KPI ===========================================
+
+/* Variable float expressing the CO2 emissions KPI score. */
+
+predicate logistic_kpi_ratio = 
+  if used_kpis[Transportation_Mode_KPI] == true
+    then kpis_ratio[Transportation_Mode_KPI] = (relevances[Transportation_Mode_KPI] * travel_means_quality_weigth * sum(t in Travel_Means)(travel_means_quality[t] * travel_means_consumption_efficiency_weight * travel_means_consumption_efficiency[t] * travel_means_used[t]) / (travel_means_quality_weigth * travel_means_consumption_efficiency_weight * sum(travel_means_used)))
+    else kpis_ratio[Transportation_Mode_KPI] = 0
+  endif;
+
+constraint logistic_kpi_ratio();
 
 % ============================================= WATER EFFICIENCY KPI ===========================================
 
 /* Variable float expressing the CO2 emissions KPI score. */
 constraint kpis_ratio[Water_Consumption_KPI] == relevances[Water_Consumption_KPI] *
-  normalize_kpi(water_reduction_by_2030_rate, machinery_total_water_consumption(), previous_year_water_consumption);
+  normalize_kpi(water_reduction_by_2030_rate, machinery_total_water_consumption, previous_year_water_consumption);
+
+% ============================================ Transportation Mode KPI ===========================================
+
+/* Variable float expressing the CO2 emissions KPI score. */
+
+predicate logistic_volume_kpi_ratio = 
+  if used_kpis[Transportation_Capacity_KPI] == true
+    then kpis_ratio[Transportation_Capacity_KPI] = sum(t in Travel_Means)(travel_means_assigned_products[t]) / sum(t in Travel_Means)(travel_means_capacity[t] * travel_means_used[t])
+    else kpis_ratio[Transportation_Capacity_KPI] = 0
+  endif;
+
+constraint logistic_volume_kpi_ratio();
 
 % ================================================ RECICLING KPI ===============================================
 
@@ -38,7 +62,7 @@ constraint assert(
 
 /* Variable float expressing the Recicling KPI score. */
 constraint kpis_ratio[Recycling_KPI] == 
-  if length(product_reciclable_compositions) != 0
+  if used_kpis[Recycling_KPI] == true
     then relevances[Recycling_KPI] * sum(p in Products)(n_products[p] * product_reciclable_compositions[p]) / sum(n_products)
     else 0
   endif;
@@ -70,11 +94,12 @@ solve maximize sum(p in 1..card(KPIs) - 1)(kpis_ratio[to_enum(KPIs, p)] * releva
 var 0.0..100.0: total_kpi_percentage = 100 * sum(p in KPIs where used_kpis[p] = true)(kpis_ratio[p]) / 
   sum(p in KPIs where used_kpis[p] = true)(relevances[p]);
   
+
 % =================================================== OUTPUT ===================================================
 
 output [
-  %"Energy Consumption \(machinery_total_energy_consumption()) \n",
-  %"Water Consumption \(machinery_total_water_consumption()) \n",
+  "Energy Consumption \(machinery_total_energy_consumption) \n",
+  "Water Consumption \(machinery_total_water_consumption) \n",
   %"CO2 Emissions: \(emissions())\n",
   % "target consumption \(target_energy_this_year) \n",
   "Initial budget: \(budget)\n", 
@@ -84,8 +109,12 @@ output [
   "Recycling KPI: \(kpis_ratio[Recycling_KPI])\n",
   "Water KPI: \(kpis_ratio[Water_Consumption_KPI])\n",
   "Equipment Reject Rate KPI \(kpis_ratio[Equipment_Reject_KPI] )\n",
+  "Transportation_mode_kpis \(kpis_ratio[Transportation_Mode_KPI]) \n",
+  "Transportation_mode_kpis \(kpis_ratio[Transportation_Capacity_KPI]) \n",
   "Certifications KPI \(kpis_ratio[Certifications_KPI] )\n",
   "Certifications obtained \(actual_certifications)\n",
+  "Travel means used \(travel_means_used) \n",
+  "Travel means used \(travel_means_assigned_products) \n",
   %   "target emissions \(target_co2_this_year) \n",
   %"Time taken: \(products_total_time())\n",
   "Current Machinery: \(actual_machinery)\n",
