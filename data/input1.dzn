@@ -42,10 +42,6 @@ starting_machinery = [2, 3, 0];
 % max_hour_machine_usage = 5000;
 machine_budget = 800;
 
-Certifications = {C1, C2, C3};
-certifications_cost = [100, 500, 20];
-certifications_time_to_earn = [32, 48, 16];
-certifications_weight = [5, 10, 1];
 starting_certifications = [false, false, false];
 
 use_logistics_kpis = true;

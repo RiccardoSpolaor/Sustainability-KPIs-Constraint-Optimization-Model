@@ -1,3 +1,5 @@
+include "constants.mzn";
+
 % ====================================== COMPANY GOALS AND PREVIOUS DATA =======================================
 
 /** Integer expressing the budget of company measured in dollars ($). */
@@ -70,10 +72,9 @@ par 0..100: max_n_machinery;
 /** Integer expressing the available budget for purchasing new pieces of equipment. */
 par 0..budget: machine_budget;
 
-enum Certifications;
-array[Certifications] of par int: certifications_cost;
-array[Certifications] of par int: certifications_time_to_earn;
-array[Certifications] of par int: certifications_weight;
+% ============================================ CERTIFICATIONS DATA =============================================
+
+/** Array of bools representing the Certifications that the company owns before production starts. */
 array[Certifications] of par bool: starting_certifications;
 
 % ==================================== RECYCLABILITY DATA (NON MANDATORY) ======================================

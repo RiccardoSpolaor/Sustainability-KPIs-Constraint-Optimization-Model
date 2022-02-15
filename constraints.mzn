@@ -17,11 +17,31 @@ constraint forall(m in Machinery)(m_yearly_actual_uses[m] <= m_yearly_uses[m] * 
 constraint sum(m_yearly_actual_uses) == production_total_time;
 
 /* The total time to produce the items must be less or equal than the total available time for production. */
-constraint production_total_time + get_certifications_total_time() <= available_time_in_hours;
+constraint production_total_time <= available_time_in_hours;
 
 
-% ======================= CERTIFICATIONS ============================
+% =============================================== CERTIFICATIONS ==============================================
+
+/* If the company owns a certification at the beginning it will own it even after production. */
 constraint forall(c in Certifications)(starting_certifications[c] == true -> actual_certifications[c] == true);
+
+/* It is necessary to own a Carbon_Care certification that the company already owns it or that it reduces the carbon emissions by at least 5%. */
+constraint actual_certifications[Carbon_Care] == true -> (
+  starting_certifications[Carbon_Care] == true \/ total_production_co2_emissions <= previous_year_co2 - previous_year_co2 * 0.05
+);
+  
+/* It is necessary to own a Global_Recycle_Standard certification that the company already owns it or that it doesn't produce phisycal products or that makes items which are on average 50% recyclable. */
+constraint actual_certifications[Global_Recycle_Standard] == true -> (
+  starting_certifications[Global_Recycle_Standard] == true 
+  \/ used_kpis[Recycling_KPI] == true
+  \/ sum(p in Products)(n_products[p] * product_reciclable_compositions[p]) / sum(n_products) >= 0.5
+);
+
+/* It is necessary to own a Water_Sense certification that the company already owns it or that it reduces the water consumption by at least 20%. */
+constraint actual_certifications[Water_Sense] == true -> (
+  starting_certifications[Water_Sense] == true 
+  \/ machinery_total_water_consumption <= previous_year_water_consumption - previous_year_water_consumption * 0.2
+);
 
 % ========================================= COSTS RELATED CONSTRAINTS =========================================
 

@@ -40,6 +40,21 @@ par 0.5..0.5: energy_reduction_by_2030_rate = 0.5;
 /** Float expressing the target reduction rate of total water consumption by 2030 that is supposed be achieved by the company . */
 par 0.4..0.4: water_reduction_by_2030_rate = 0.4;
 
+% ====================================== CERTIFICATIONS RELATED CONSTANTS ======================================
+
+/** Enum expressing the available certifications that the company may own. */
+enum Certifications = {Carbon_Care, Global_Recycle_Standard, Water_Sense};
+
+/** Array of integers representing the cost of each certification. */
+array[Certifications] of par int: certifications_cost = [
+  if minimum_earnings < 10000000 then 500
+    elseif minimum_earnings >= 10000000 /\ minimum_earnings < 100000000 then 900
+   else 2250
+  endif,
+  4000,
+  2000
+];
+
 % ========================================= LOGISTICS RELATED CONSTANTS ========================================
 
 /** Enum expressing the possible means of transport to deliver the items. */

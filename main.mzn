@@ -76,8 +76,8 @@ constraint kpis_ratio[Equipment_Reject_KPI] == relevances[Equipment_Reject_KPI] 
 
 /* Constraint that normalizes the Certifications score and multiplies it by the Certifications KPI relevance. */
 constraint kpis_ratio[Certifications_KPI] == relevances[Certifications_KPI] * 
-  (sum(c in Certifications)(bool2int(actual_certifications[c]) * certifications_weight[c]) /
-  sum(certifications_weight));
+  sum(c in Certifications)(bool2int(actual_certifications[c])) /
+  sum(actual_certifications);
 
 % =================================================== SOLUTION ===================================================
 
@@ -114,6 +114,10 @@ output [
   "Water KPI score: \(kpis_ratio[Water_Consumption_KPI]) / \(relevances[Water_Consumption_KPI])\n",
     "\t* Previous water consumption \(previous_year_water_consumption) liters;\n",
     "\t* Reached water consumption \(machinery_total_water_consumption) liters.\n\n",
+  
+  "Certifications KPI score: \(kpis_ratio[Certifications_KPI]) / \(relevances[Certifications_KPI])\n",
+    "\t* Starting certifications: \(["\(Certifications[c]): \(starting_certifications[c])" | c in Certifications]);\n",
+    "\t* Final certifications: \(["\(Certifications[c]): \(actual_certifications[c])" | c in Certifications]).\n\n",
   
   if length(product_reciclable_compositions) != 0 
   then

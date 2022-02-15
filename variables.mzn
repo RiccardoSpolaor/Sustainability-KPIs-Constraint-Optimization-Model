@@ -37,7 +37,7 @@ var 0..10000: machinery_total_water_consumption = sum(m in Machinery)(m_yearly_a
 
 % ====================================== CERTIFICATIONS RELATED VARIABLES =======================================
 
-% Todo comment
+/** Array of variable bools expressing the certifications actually owned by the company during production. */
 array[Certifications] of var bool: actual_certifications;
 
 % ========================================= LOGISTICS RELATED VARIABLES =========================================

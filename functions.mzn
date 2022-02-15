@@ -46,8 +46,6 @@ function var 0..10000: machines_total_costs() = sum(m in Machinery where startin
 /* Variable float representing the total energy consumption of the actually owned equipment. */
 %function var 0..10000: machinery_total_energy_consumption = sum(m in Machinery)(m_yearly_actual_uses[m] * m_energy_per_hours[m]);
 
-function var 0..100000: get_certifications_total_time() = sum(c in Certifications where starting_certifications[c] == false /\ actual_certifications[c] == true)(certifications_time_to_earn[c]);
-
 function var 0..100000: get_certifications_total_costs() = sum(c in Certifications where starting_certifications[c] == false /\ actual_certifications[c] == true)(certifications_cost[c]);
 
 function var 0..100000: get_logistics_total_costs() = if use_logistics_kpis == true then sum (t in Travel_Means)(
