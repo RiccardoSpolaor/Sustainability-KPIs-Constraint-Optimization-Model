@@ -20,8 +20,10 @@ function var float: normalize_kpi(0.0..1.0: reduction_by_2030_rate, var float: v
     var float: min_max = 1 - ((value - target_value) / (previous_year_value - target_value));
   } in min([max([min_max, 0]), 1]);
 
-/** Variable integer expressing the total earning of the products. */
-function var 0..100000: product_total_earnings() = sum (p in Products)(n_products[p] * product_selling_prices[p]);
+/** Variable integer expressing the total earning of the products increased according to the certifications owned by the companies. */
+function var 0..100000: product_total_earnings() = sum (p in Products)(
+  n_products[p] * product_selling_prices[p] * sum(c in Certifications)(bool2int(actual_certifications[c]) * round(product_selling_prices[p]*0.05))
+);
 /** Variable integer expressing the total costs related to the products. */
 function var 0..100000: product_total_costs() = sum (p in Products)(n_products[p] * product_costs[p]);
 /** Variable float expressing the total emissions related to the products. */

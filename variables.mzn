@@ -19,7 +19,7 @@ array[Products] of var 0..50000: n_products;
 var minimum_earnings..100000: total_earnings = product_total_earnings();
 
 /** Variable integer expressing the total hours of production. */
-var 0..available_time_in_hours: production_total_time = sum(p in Products)(product_times[p] * n_products[p]);
+var 0..available_time_in_hours: production_total_time = max([m_yearly_actual_uses[m] div min([1, actual_machinery[m]]) | m in Machinery]);
 
 % ========================================= EQUIPMENT RELATED VARIABLES =========================================
 
