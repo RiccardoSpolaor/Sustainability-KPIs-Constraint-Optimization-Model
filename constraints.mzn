@@ -2,6 +2,28 @@ include "parameters.mzn";
 include "variables.mzn";
 include "functions.mzn";
 
+% ======================================= PARAMETERS RELATED CONSTRAINTS ======================================
+
+/* Constraint to assert that the product_reciclable_compositions array is either empty or it has the same length as the available items. */
+constraint assert(
+  length(product_reciclable_compositions) == 0 \/ length(product_reciclable_compositions) == card(Products),
+  "product_reciclable_compositions must be an empty array or an array that has the same length as Products"
+);
+
+/* Constraint to assert that the products_travel_distance parable is assigned if use_logistics_kpis is "true". */
+constraint assert(use_logistics_kpis == true -> occurs(products_travel_distance), "Insert the travel distance of the products.");
+
+% ========================================= COSTS RELATED CONSTRAINTS =========================================
+
+/* The total costs cannot overcome the budget. */
+constraint budget - total_costs() >= 0;
+ 
+/* The equipment costs cannot overcome the equipment budget. */
+constraint machine_budget + machines_total_earnings() - machines_total_costs() >= 0;
+
+/* The total earnings must be greater or equal than the minimum expected earnings. */
+constraint total_earnings >= minimum_earnings;
+
 % ==================================== EQUIPMENT AND PRODUCTS CONSTRAINTS ====================================
 
 /* The starting number of pieces of equipment must be less or equal than the maximum number of pieces of equipment. */
@@ -19,8 +41,7 @@ constraint sum(m_yearly_actual_uses) == sum(p in Products)(product_times[p] * n_
 /* The total time to produce the items must be less or equal than the total available time for production. */
 constraint production_total_time <= available_time_in_hours;
 
-
-% =============================================== CERTIFICATIONS ==============================================
+% ===================================== CERTIFICATIONS RELATED CONSTRAINTS ====================================
 
 /* If the company owns a certification at the beginning it will own it even after production. */
 constraint forall(c in Certifications)(starting_certifications[c] == true -> actual_certifications[c] == true);
@@ -43,35 +64,7 @@ constraint actual_certifications[Water_Sense] == true -> (
   \/ machinery_total_water_consumption <= previous_year_water_consumption - previous_year_water_consumption * 0.2
 );
 
-% ========================================= COSTS RELATED CONSTRAINTS =========================================
-
-/* The total costs cannot overcome the budget. */
-constraint budget - total_costs() >= 0;
- 
-/* The equipment costs cannot overcome the equipment budget. */
-constraint machine_budget + machines_total_earnings() - machines_total_costs() >= 0;
-
-/* The total earnings must be greater or equal than the minimum expected earnings. */
-constraint total_earnings >= minimum_earnings;
-
-
-/*
-predicate forbid_transportation_means() =
-  if use_logistics_kpis == false 
-    then true 
-  else
-    ((products_travel_distance < travel_means_km_per_hour[Plane] * 3 -> travel_means_used[Plane] == 0) /\ 
-    (products_travel_distance < travel_means_km_per_hour[Ship] * 2 -> travel_means_used[Ship] == 0))
-  endif;
-*/
-/*
-predicate respect_total_delivery_time() =
-  if use_logistics_kpis == false 
-    then true 
-  else
-    sum(t in Travel_Means)(travel_means_used[t] * (products_travel_distance div travel_means_km_per_hour[t])) <= products_delivery_total_time
-  endif;
-*/
+% ======================================= LOGISTICS RELATED CONSTRAINTS =======================================
 
 /** Predicate that expresses that if the logistics scores are used, then the capacity of each mean of transportation must be respected. */
 predicate respect_total_transportation_capacity() =
@@ -88,27 +81,9 @@ predicate deliver_all_products() =
   else
     sum(n_products) == sum(travel_means_assigned_products)
   endif;
-  
-% Travel means
-/* Ships and Planes are used just if there is a lot to travel */
-% constraint use_logistics_kpis = true -> (products_travel_distance < travel_means_km_per_hour[Plane] * 3 -> travel_means_used[Plane] == 0);
-% constraint use_logistics_kpis = true -> (products_travel_distance < travel_means_km_per_hour[Ship] * 2 -> travel_means_used[Plane] == 0);
-
-
-% constraint forbid_transportation_means();
-% constraint respect_total_delivery_time();
 
 /* Constraint that checks the respect_total_transportation_capacity predicate. */
 constraint respect_total_transportation_capacity();
 
 /* Constraint that checks the deliver_all_products predicate. */
 constraint deliver_all_products();
-
-/* Shipment times must be respected */
-% constraint use_logistics_kpis = true -> (sum(t in Travel_Means)(travel_means_used[t] * (products_travel_distance / travel_means_km_per_hour[t])) <= products_delivery_total_time); 
-
-/* All products must be shipped */
-%constraint use_logistics_kpis = true -> (sum(n_products) == sum(travel_means_assigned_products));
-
-/* The products cannot overcome the capacity of the single means of transportation */
-%constraint use_logistics_kpis = true -> (forall(t in Travel_Means)(travel_means_assigned_products[t] <= travel_means_capacity[t] * travel_means_used[t]));

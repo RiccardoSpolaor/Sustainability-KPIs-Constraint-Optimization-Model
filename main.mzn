@@ -4,17 +4,17 @@ include "constants.mzn";
 include "constraints.mzn";
 include "functions.mzn";
 
-% ============================================= CO2 EMISSIONS SCORE ============================================
-
-/* Constraint that normalizes the CO2 score and multiplies it by the CO2 KPI relevance. */
-constraint kpis_ratio[CO2_KPI] = relevances[CO2_KPI] * 
-  normalize_kpi(co2_reduction_by_2030_rate, total_production_co2_emissions, previous_year_co2);
-
 % =========================================== ENERGY EFFICIENCY SCORE ==========================================
 
 /* Constraint that normalizes the Energy Efficiency score and multiplies it by the Energy Efficiency KPI relevance. */
 constraint kpis_ratio[Energy_Efficiency_KPI] == relevances[Energy_Efficiency_KPI] *
   normalize_kpi(energy_reduction_by_2030_rate, machinery_total_energy_consumption, previous_year_energy_consumption);
+
+% ============================================= CO2 EMISSIONS SCORE ============================================
+
+/* Constraint that normalizes the CO2 score and multiplies it by the CO2 KPI relevance. */
+constraint kpis_ratio[CO2_KPI] = relevances[CO2_KPI] * 
+  normalize_kpi(co2_reduction_by_2030_rate, total_production_co2_emissions, previous_year_co2);
 
 % ========================================== TRANSPORTATION MODE SCORE =========================================
 
@@ -31,11 +31,10 @@ predicate transportation_mode_score() =
 /* Constraint that calls the predicate transportation_mode_score. */
 constraint transportation_mode_score();
 
-% ============================================ WATER EFFICIENCY SCORE =========================================
+% ============================================== CERTIFICATIONS SCORE ============================================
 
-/* Constraint that normalizes the Water Efficiency score and multiplies it by the Water Efficiency KPI relevance. */
-constraint kpis_ratio[Water_Consumption_KPI] == relevances[Water_Consumption_KPI] *
-  normalize_kpi(water_reduction_by_2030_rate, machinery_total_water_consumption, previous_year_water_consumption);
+/* Constraint that normalizes the Certifications score and multiplies it by the Certifications KPI relevance. */
+constraint kpis_ratio[Certifications_KPI] == relevances[Certifications_KPI] * sum(actual_certifications) / length(actual_certifications);
 
 % ======================================== TRANSPORTATION CAPACITY SCORE =======================================
 
@@ -52,6 +51,12 @@ predicate transportation_capacity_score() =
 
 /* Constraint that calls the predicate transportation_capacity_score. */
 constraint transportation_capacity_score();
+
+% ============================================ WATER EFFICIENCY SCORE =========================================
+
+/* Constraint that normalizes the Water Efficiency score and multiplies it by the Water Efficiency KPI relevance. */
+constraint kpis_ratio[Water_Consumption_KPI] == relevances[Water_Consumption_KPI] *
+  normalize_kpi(water_reduction_by_2030_rate, machinery_total_water_consumption, previous_year_water_consumption);
 
 % =============================================== RECYCLING SCORE ===============================================
 
@@ -71,13 +76,6 @@ constraint kpis_ratio[Recycling_KPI] ==
 constraint kpis_ratio[Equipment_Reject_KPI] == relevances[Equipment_Reject_KPI] * 
   (1 - sum(m in Machinery where starting_machinery[m] < actual_machinery[m])(abs(starting_machinery[m] - actual_machinery[m])) /
   sum(starting_machinery));
-
-% ============================================== CERTIFICATIONS SCORE ============================================
-
-/* Constraint that normalizes the Certifications score and multiplies it by the Certifications KPI relevance. */
-constraint kpis_ratio[Certifications_KPI] == relevances[Certifications_KPI] * 
-  sum(c in Certifications)(bool2int(actual_certifications[c])) /
-  sum(actual_certifications);
 
 % =================================================== SOLUTION ===================================================
 

@@ -82,12 +82,6 @@ array[Certifications] of par bool: starting_certifications;
 /** Array of floats representing the recyclable composition ratio (between 0 and 1) for each item (N/D = []). */
 array[int] of par 0.0..1.0: product_reciclable_compositions;
 
-/* Constraint to assert that the product_reciclable_compositions array is either empty or it has the same length as the available items. */
-constraint assert(
-  length(product_reciclable_compositions) == 0 \/ length(product_reciclable_compositions) == card(Products),
-  "product_reciclable_compositions must be an empty array or an array that has the same length as Products"
-);
-
 % ======================================= LOGISTICS DATA (NON MANDATORY) ======================================
 
 /** Boolean expressing whether to include the logistics related scores in the environmental sustainability optimization. */
@@ -95,6 +89,3 @@ par bool: use_logistics_kpis;
 
 /** Integer representing the distance in Km needed to deliver each product (Mandatory just when use_logistics_kpis is "true"). */
 par opt 0..100000: products_travel_distance;
-
-/* Constraint to assert that the products_travel_distance parable is assigned if use_logistics_kpis is "true". */
-constraint assert(use_logistics_kpis == true -> occurs(products_travel_distance), "Insert the travel distance of the products.");
