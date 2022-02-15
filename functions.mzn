@@ -12,7 +12,7 @@ include "constants.mzn";
   * Returns:
     @ Variable float expressing the normalized value score.
 */ 
-function var float: normalize_kpi(0.0..1.0: reduction_by_2030_rate, var float: value, float: previous_year_value) =
+function var float: get_normalized_kpi_score(0.0..1.0: reduction_by_2030_rate, var float: value, float: previous_year_value) =
   let {
     var 0.0..1.0: target_reduction_rate = (reduction_by_2030_rate) / (years_to_reach_the_reduction_goals);
     var 0.0..previous_year_value: target_value = previous_year_value - previous_year_value * target_reduction_rate;
@@ -22,38 +22,38 @@ function var float: normalize_kpi(0.0..1.0: reduction_by_2030_rate, var float: v
   
 % ======================================== PRODUCTION RELATED FUNCTIONS ======================================
 
-/** Function that computes the total earnings obtained by selling the products as a variable integer. */ 
-function var 0..100000: product_total_earnings() = sum (p in Products)(
-  n_products[p] * product_selling_prices[p] * sum(c in Certifications)(bool2int(actual_certifications[c]) * round(product_selling_prices[p]*0.05))
+/** Function that computes the total earnings obtained by selling the items as a variable integer. */ 
+function var 0..100000: get_item_total_earnings() = sum (p in Items)(
+  produced_items_number[p] * item_selling_prices[p] * sum(c in Certifications)(bool2int(actual_certifications[c]) * round(item_selling_prices[p]*0.05))
 );
 
 /** Function that computes the total cost of the raw materials to produce the items as a variable integer. */ 
-function var 0..100000: product_total_costs() = sum (p in Products)(n_products[p] * product_costs[p]);
+function var 0..100000: get_items_total_costs() = sum (p in Items)(produced_items_number[p] * item_costs[p]);
 
-/** Function that computes the total CO2 emissions in kg of the raw materials used to make the products as a variable integer. */
-function var 0..10000: products_total_emissions() = sum(p in Products)(n_products[p] * co2_emissions[p]);
+/** Function that computes the total CO2 emissions in kg of the raw materials used to make the items as a variable integer. */
+function var 0..10000: get_items_total_emissions() = sum(p in Items)(produced_items_number[p] * co2_emissions[p]);
 
 /** Function that computes the total costs of production as a variable integer. */
-function var 0..budget: total_costs() = product_total_costs() + get_certifications_total_costs() + machine_budget + get_logistics_total_costs();
+function var 0..budget: get_total_costs() = get_items_total_costs() + get_certifications_total_costs() + equipment_budget + get_logistics_total_costs();
 
 /** Function that computes the total CO2 emissions in kg of the  equipment during production as a variable integer. */
-function var 0..10000: machinery_total_emissions() = sum(m in Machinery)(m_yearly_actual_uses[m] * m_co2_per_hours[m]);
+function var 0..10000: get_equipment_total_emissions() = sum(m in Equipment)(yearly_equipment_actual_usage[m] * equipment_co2_emission_per_hour[m]);
 
 /** Function that computes the total earnings in dollars ($) that are achieved by disposing of part of the starting equipment as a variable integer. */
-function var 0..10000: machines_total_earnings() = sum(m in Machinery where starting_machinery[m] > actual_machinery[m])(
-  m_resell_prices[m] * abs(starting_machinery[m] - actual_machinery[m])
+function var 0..10000: get_equipment_total_earnings() = sum(m in Equipment where starting_equipment[m] > actual_equipment[m])(
+  equipment_disposal_prices[m] * abs(starting_equipment[m] - actual_equipment[m])
 );
 
 /** Function that computes the total costs in dollars ($) to buy new equipment for production as a variable integer. */
-function var 0..10000: machines_total_costs() = sum(m in Machinery where starting_machinery[m] <= actual_machinery[m])(
-  m_prices[m] * abs(starting_machinery[m] - actual_machinery[m])
+function var 0..10000: get_equipment_total_costs() = sum(m in Equipment where starting_equipment[m] <= actual_equipment[m])(
+  equipment_prices[m] * abs(starting_equipment[m] - actual_equipment[m])
 );
 
 /** Function that computes the total costs in dollars ($) to buy new certifications as a variable integer. */
 function var 0..100000: get_certifications_total_costs() = sum(c in Certifications where starting_certifications[c] == false /\ actual_certifications[c] == true)(certifications_cost[c]);
 
 /** Function that computes the total costs in dollars ($) for the logistics as a variable integer. */
-function var 0..100000: get_logistics_total_costs() = if use_logistics_kpis == true then sum (t in Travel_Means)(
-  travel_means_cost_per_hour[t] * travel_means_used[t]) % * (products_travel_distance div travel_means_km_per_hour[t]))
+function var 0..100000: get_logistics_total_costs() = if use_logistics_kpis == true then sum (t in Transportation_Means)(
+  transportation_means_cost_per_hour[t] * transportation_means_used[t]) % * (items_travel_distance div transportation_means_km_per_hour[t]))
   else 0 endif;
   
