@@ -85,11 +85,6 @@ constraint kpis_ratio[Equipment_Reject_KPI] == relevances[Equipment_Reject_KPI] 
 
 solve maximize sum(p in 1..card(KPIs) - 1)(kpis_ratio[to_enum(KPIs, p)] * relevances[to_enum(KPIs, p + 1)]) + kpis_ratio[to_enum(KPIs,card(KPIs))];
 
-/** Variable float expressing the total KPI score percentage. */
-var 0.0..100.0: total_kpi_percentage = 100 * sum(p in KPIs where used_kpis[p] = true)(kpis_ratio[p]) / 
-  sum(p in KPIs where used_kpis[p] = true)(relevances[p]);
-  
-
 % ==================================================== OUTPUT ====================================================
 
 output [
@@ -121,7 +116,7 @@ output [
     "\t* Starting certifications: \(["\(Certifications[c]): \(starting_certifications[c])" | c in Certifications]);\n",
     "\t* Final certifications: \(["\(Certifications[c]): \(actual_certifications[c])" | c in Certifications]).\n\n",
   
-  if length(product_reciclable_compositions) != 0 
+  if used_kpis[Recycling_KPI] == true 
   then
     "Recycling KPI score: \(kpis_ratio[Recycling_KPI]) / \(relevances[Recycling_KPI]).\n\n"
   else ""

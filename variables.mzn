@@ -10,6 +10,10 @@ array[KPIs] of var 0.0..5.0: kpis_ratio;
 /** Variable float expressing the total CO2 emissions during production. */
 var 0..10000: total_production_co2_emissions = products_total_emissions() + machinery_total_emissions();
 
+/** Variable float expressing the total KPI score percentage. */
+var 0.0..100.0: total_kpi_percentage = 100 * sum(p in KPIs where used_kpis[p] = true)(kpis_ratio[p]) / 
+  sum(p in KPIs where used_kpis[p] = true)(relevances[p]);
+
 % ========================================= PRODUCTS RELATED VARIABLES =========================================
 
 /** Array of variable integers containing for each item the number of units actually produced. */
