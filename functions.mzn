@@ -31,7 +31,7 @@ function var 0..100000: get_item_total_earnings() = sum (p in Items)(
 function var 0..100000: get_items_total_costs() = sum (p in Items)(produced_items_number[p] * item_costs[p]);
 
 /** Function that computes the total CO2 emissions in kg of the raw materials used to make the items as a variable integer. */
-function var 0..10000: get_items_total_emissions() = sum(p in Items)(produced_items_number[p] * co2_emissions[p]);
+function var 0..10000: get_items_total_emissions() = sum(p in Items)(produced_items_number[p] * item_co2_emissions[p]);
 
 /** Function that computes the total costs of production as a variable integer. */
 function var 0..budget: get_total_costs() = get_items_total_costs() + get_certifications_total_costs() + equipment_budget + get_logistics_total_costs();

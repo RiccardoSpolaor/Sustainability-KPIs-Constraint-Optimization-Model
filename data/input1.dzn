@@ -16,8 +16,9 @@ Items = {Box, Recicled_Box};
 
 item_costs = [8, 9];
 item_selling_prices = [16, 18];
-co2_emissions = [10, 2];
+item_co2_emissions = [10, 2];
 item_times = [2,2];
+item_extra_energy_consumption = [1,0];
 % an already recicled material is less reciclable than a non recicled one
 % optional parameter (default = [])
 item_reciclable_compositions = [0.5, 0.4];

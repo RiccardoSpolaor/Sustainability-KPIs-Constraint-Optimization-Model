@@ -34,7 +34,8 @@ array[Equipment] of var 0..max_equipment_number: actual_equipment;
 array[Equipment] of var 0..10000: yearly_equipment_actual_usage;
 
 /** Variable float expressing the total energy consumption of the equipment after production. */
-var 0..10000: equipment_total_energy_consumption = sum(m in Equipment)(yearly_equipment_actual_usage[m] * equipment_energy_consumption_per_hour[m]);
+var 0..10000: equipment_total_energy_consumption = sum(m in Equipment)(yearly_equipment_actual_usage[m] * equipment_energy_consumption_per_hour[m]) + 
+  sum(i in Items)(produced_items_number[i] * item_extra_energy_consumption[i]);
 
 /** Variable float expressing the total water consumption of the equipment after production. */
 var 0..10000: equipment_total_water_consumption = sum(m in Equipment)(yearly_equipment_actual_usage[m] * equipment_water_consumption_per_hour[m]);
