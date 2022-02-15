@@ -61,10 +61,10 @@ array[Certifications] of par int: certifications_cost = [
 enum Transportation_Means = {Plane, Ship, Truck, Train};
 
 /** Array of integers expressing the speed of each mean of transport (Km/h). */
-array[Transportation_Means] of int: transportation_means_km_per_hour = [805, 30, 70, 200];
+array[Transportation_Means] of int: transportation_means_km_per_hour = [800, 30, 80, 50];
 
 /** Array of floats expressing the shipment quality score of each mean of transport (Regarding the integrity condition of the items and the availability of the service). */
-array[Transportation_Means] of 0.0..1.0: transportation_means_quality = [1.0, 0.5, 0.25, 0.75];
+array[Transportation_Means] of 0.0..1.0: transportation_means_quality = [1.0, 0.75, 0.25, 0.5];
 
 /** Array of floats expressing the fuel consumption efficiency score of each mean of transport. */
 array[Transportation_Means] of 0.0..1.0: transportation_means_consumption_efficiency = [0.1, 0.6, 0.8, 1.0];
@@ -76,7 +76,7 @@ par 4..4: transportation_means_quality_weigth = 4;
 par 5..5: transportation_means_consumption_efficiency_weight = 5;
 
 /** Array of integers expressing the capacity of each transportation mean (measured in units of items). */
-array[Transportation_Means] of int: transportation_means_capacity = [90, 110, 20, 50];
+array[Transportation_Means] of int: transportation_means_capacity = [80, 130, 20, 90];
 
 /** Array of integers expressing the cost per hour in dollars ($) of each mean of transport. */
 array[Transportation_Means] of int: transportation_means_cost_per_hour = [500, 50, 20, 30];
