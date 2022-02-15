@@ -32,13 +32,13 @@ array[KPIs] of par bool: used_kpis = [
 % ======================================== OPTIMIZATION RELATED CONSTANTS ======================================
 
 /** Float expressing the target reduction rate of total CO2 emissions by 2030 that is supposed be achieved by the company . */
-par 0.4..0.4: co2_reduction_by_2030_rate = 0.4;
+par 0.4..0.4: co2_reduction_by_2030_rate = 0.45;
 
 /** Float expressing the target reduction rate of total energy consumption by 2030 that is supposed be achieved by the company . */
 par 0.5..0.5: energy_reduction_by_2030_rate = 0.5;
 
 /** Float expressing the target reduction rate of total water consumption by 2030 that is supposed be achieved by the company . */
-par 0.4..0.4: water_reduction_by_2030_rate = 0.4;
+par 0.4..0.4: water_reduction_by_2030_rate = 0.5;
 
 % ====================================== CERTIFICATIONS RELATED CONSTANTS ======================================
 
