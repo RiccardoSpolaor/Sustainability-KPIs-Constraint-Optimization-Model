@@ -60,15 +60,19 @@ constraint kpis_ratio[Water_Consumption_KPI] == relevances[Water_Consumption_KPI
 
 % =============================================== RECYCLING SCORE ===============================================
 
-/* 
-  Constraint that normalizes the Water Efficiency score and multiplies it by the Water Efficiency KPI relevance.
+/** 
+  Predicate that computes Recycling Efficiency score ratio and multiplies it by the Recycling Efficiency KPI relevance.
   If recycling scores are not used for the maximization problem, the predicate sets the score at 0.  
 */
-constraint kpis_ratio[Recycling_KPI] == 
+predicate recycling_score() = 
   if used_kpis[Recycling_KPI] == true
-    then relevances[Recycling_KPI] * sum(p in Products)(n_products[p] * product_reciclable_compositions[p]) / sum(n_products)
-    else 0
+    then kpis_ratio[Recycling_KPI] =
+      relevances[Recycling_KPI] * sum(p in Products)(n_products[p] * product_reciclable_compositions[p]) / sum(n_products)
+    else kpis_ratio[Recycling_KPI] = 0
   endif;
+
+/* Constraint that calls the predicate recycling_score. */
+constraint recycling_score();
 
 % ========================================== EQUIPMENT REJECT RATE SCORE =========================================
 

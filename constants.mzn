@@ -24,8 +24,8 @@ array[KPIs] of par bool: used_kpis = [
   if use_logistics_kpis == true then true else false endif, 
   true, 
   if use_logistics_kpis == true then true else false endif, 
-  if length(product_reciclable_compositions) == 0 then false else true endif, 
   true,
+  if length(product_reciclable_compositions) == 0 then false else true endif,
   true
 ];
 
