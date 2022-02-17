@@ -28,10 +28,10 @@ constraint total_earnings >= minimum_earnings;
 constraint sum(m in Equipment)(starting_equipment[m]) <= max_equipment_number;
 
 /* The final number of pieces of equipment must be less or equal than the maximum number of pieces of equipment. */
-constraint sum(m in Equipment)(actual_equipment[m]) <= max_equipment_number;
+constraint sum(m in Equipment)(current_equipment[m]) <= max_equipment_number;
 
 /* Each piece of equipment usage must be less or equal than its maximum usage time limit. */
-constraint forall(m in Equipment)(yearly_equipment_actual_usage[m] <= yearly_equipment_max_usage[m] * actual_equipment[m]);
+constraint forall(m in Equipment)(yearly_equipment_actual_usage[m] <= yearly_equipment_max_usage[m] * current_equipment[m]);
 
 /* The total usage of the equipment must be strictly equal to the total production time of the items. */
 constraint sum(yearly_equipment_actual_usage) == sum(p in Items)(item_times[p] * produced_items_number[p]);
@@ -42,22 +42,22 @@ constraint production_total_time <= available_time_in_hours;
 % ===================================== CERTIFICATIONS RELATED CONSTRAINTS ====================================
 
 /* If the company owns a certification at the beginning it will own it even after production. */
-constraint forall(c in Certifications)(starting_certifications[c] == true -> actual_certifications[c] == true);
+constraint forall(c in Certifications)(starting_certifications[c] == true -> current_certifications[c] == true);
 
 /* It is necessary to own a Carbon_Care certification that the company already owns it or that it reduces the carbon emissions by at least 5%. */
-constraint actual_certifications[Carbon_Care] == true -> (
+constraint current_certifications[Carbon_Care] == true -> (
   starting_certifications[Carbon_Care] == true \/ total_production_emissions <= previous_year_co2_emissions - previous_year_co2_emissions * 0.05
 );
   
 /* It is necessary to own a Global_Recycle_Standard certification that the company already owns it or that it doesn't produce phisycal items or that makes items which are on average 50% recyclable. */
-constraint actual_certifications[Global_Recycle_Standard] == true -> (
+constraint current_certifications[Global_Recycle_Standard] == true -> (
   starting_certifications[Global_Recycle_Standard] == true 
   \/ used_kpis[Recycling_KPI] == true
   \/ sum(p in Items)(produced_items_number[p] * item_reciclable_compositions[p]) / sum(produced_items_number) >= 0.5
 );
 
 /* It is necessary to own a Water_Sense certification that the company already owns it or that it reduces the water consumption by at least 20%. */
-constraint actual_certifications[Water_Sense] == true -> (
+constraint current_certifications[Water_Sense] == true -> (
   starting_certifications[Water_Sense] == true 
   \/ equipment_total_water_consumption <= previous_year_water_consumption - previous_year_water_consumption * 0.2
 );

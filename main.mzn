@@ -34,7 +34,7 @@ constraint transportation_mode_score();
 % ============================================== CERTIFICATIONS SCORE ============================================
 
 /* Constraint that normalizes the Certifications score and multiplies it by the Certifications KPI relevance. */
-constraint kpis_scores[Certifications_KPI] == kpis_relevances[Certifications_KPI] * sum(actual_certifications) / length(actual_certifications);
+constraint kpis_scores[Certifications_KPI] == kpis_relevances[Certifications_KPI] * sum(current_certifications) / length(current_certifications);
 
 % ======================================== TRANSPORTATION CAPACITY SCORE =======================================
 
@@ -78,7 +78,7 @@ constraint recycling_score();
 
 /* Constraint that normalizes the Equipment Reject Rate score and multiplies it by the Equipment Reject Rate KPI relevance. */
 constraint kpis_scores[Equipment_Reject_KPI] == kpis_relevances[Equipment_Reject_KPI] * 
-  (1 - sum(m in Equipment where starting_equipment[m] > actual_equipment[m])(abs(starting_equipment[m] - actual_equipment[m])) /
+  (1 - sum(m in Equipment where starting_equipment[m] > current_equipment[m])(abs(starting_equipment[m] - current_equipment[m])) /
   sum(starting_equipment));
 
 % =================================================== SOLUTION ===================================================
@@ -93,15 +93,15 @@ output [
 
   "eq_emissions: \(eq_emissions)\n",
   "Initial company state: \n",
-    "\t* Budget: $\(budget) ($\(equipment_budget) allocated to purchase eventual new equipment);\n",
+    "\t* Budget: $\(budget) k ($\(equipment_budget) k allocated to purchase eventual new equipment);\n",
     "\t* Available equipment: \(["\(Equipment[m]): \(starting_equipment[m])" | m in Equipment]).\n\n",
 
   "Company achieved results: \n",
     "\t* Total KPI percentage score: \(total_kpi_percentage_score)%\n",
-    "\t* Earnings: $\(total_earnings);\n",
+    "\t* Earnings: $\(total_earnings) k;\n",
     "\t* Number of sold items: \(["\(p): \(produced_items_number[p])" | p in Items]);\n",
     "\t* Production time: \(production_total_time);\n",
-    "\t* Final equipment: \(["\(Equipment[m]): \(actual_equipment[m])" | m in Equipment]);\n",
+    "\t* Final equipment: \(["\(Equipment[m]): \(current_equipment[m])" | m in Equipment]);\n",
     "\t* Final equipment usage: \(["\(Equipment[m]): \(yearly_equipment_actual_usage[m])" | m in Equipment]).\n\n",
   
   "Co2 KPI score: \(kpis_scores[CO2_KPI]) / \(kpis_relevances[CO2_KPI])\n",
@@ -118,7 +118,7 @@ output [
   
   "Certifications KPI score: \(kpis_scores[Certifications_KPI]) / \(kpis_relevances[Certifications_KPI])\n",
     "\t* Starting certifications: \(["\(Certifications[c]): \(starting_certifications[c])" | c in Certifications]);\n",
-    "\t* Final certifications: \(["\(Certifications[c]): \(actual_certifications[c])" | c in Certifications]).\n\n",
+    "\t* Final certifications: \(["\(Certifications[c]): \(current_certifications[c])" | c in Certifications]).\n\n",
   
   if used_kpis[Recycling_KPI] == true 
   then

@@ -23,12 +23,12 @@ array[Items] of var 0..500000: produced_items_number;
 var minimum_earnings..10000000: total_earnings = get_item_total_earnings();
 
 /** Variable integer expressing the total hours of production. */
-var 0..available_time_in_hours: production_total_time = max([yearly_equipment_actual_usage[m] div max([1, actual_equipment[m]]) | m in Equipment]);
+var 0..available_time_in_hours: production_total_time = max([yearly_equipment_actual_usage[m] div max([1, current_equipment[m]]) | m in Equipment]);
 
 % ========================================= EQUIPMENT RELATED VARIABLES =========================================
 
 /** Array of variable integers expressing the actual number of units of pieces of equipment that the company will own for production. */
-array[Equipment] of var 0..max_equipment_number: actual_equipment;
+array[Equipment] of var 0..max_equipment_number: current_equipment;
 
 /** Array of variable integers expressing the number of units of piece of equipment that the company owns. */
 array[Equipment] of var 0..10000: yearly_equipment_actual_usage;
@@ -43,8 +43,8 @@ var 0..100000000000:equipment_total_water_consumption = sum(m in Equipment)(year
 
 % ====================================== CERTIFICATIONS RELATED VARIABLES =======================================
 
-/** Array of variable bools expressing the certifications actually owned by the company during production. */
-array[Certifications] of var bool: actual_certifications;
+/** Array of variable bools expressing the certifications currently owned by the company during production. */
+array[Certifications] of var bool: current_certifications;
 
 % ========================================= LOGISTICS RELATED VARIABLES =========================================
 

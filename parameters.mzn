@@ -2,10 +2,10 @@ include "constants.mzn";
 
 % ====================================== COMPANY GOALS AND PREVIOUS DATA =======================================
 
-/** Integer expressing the budget of company measured in dollars ($). */
+/** Integer expressing the budget of company measured in thousands of dollars ($). */
 par 0..1000000: budget;
 
-/** Integer expressing the minimum earning to achieve from selling items measured in dollars ($). */
+/** Integer expressing the minimum earning to achieve from selling items measured in thousands of dollars ($). */
 par 0..1000000: minimum_earnings;
 
 /** Integer expressing the Kg of C02 produced the previous year. */
@@ -60,10 +60,10 @@ array[Equipment] of par 0..10000: equipment_energy_consumption_per_hour;
 /** Array of integers expressing the liters of water consumed by each piece of equipment per hour. */
 array[Equipment] of par 0..10000: equipment_water_consumption_per_hour;
 
-/** Array of integers expressing the price in dollars ($) to buy each piece of equipment. */
+/** Array of integers expressing the price in thousands of dollars ($) to buy each piece of equipment. */
 array[Equipment] of par 0..100000: equipment_prices;
 
-/** Array of integers expressing the price in dollars ($) earned by disposing each piece of equipment. */
+/** Array of integers expressing the price in thousands of dollars ($) earned by disposing each piece of equipment. */
 array[Equipment] of par 0..100000: equipment_disposal_prices;
 
 /** Array of integers expressing the number of units of pieces of equipment that the company owns before starting production. */
