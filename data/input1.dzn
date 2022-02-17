@@ -1,50 +1,105 @@
 % company_type = A;
-
+ /*
 % The minimum earnings to obtain.
-budget = 9000;
-minimum_earnings = 10000;
+budget = 1000;
+minimum_earnings = 1312;
 available_time_in_hours = 1760;
 
 % Co2 related constraints
-previous_year_co2_emissions = 10000;
-previous_year_energy_consumption = 4040;
-previous_year_water_consumption = 2700;
+previous_year_co2_emissions = 2000;
+previous_year_energy_consumption = 1800; %181000
+previous_year_water_consumption = 1500; %183000
 
 years_to_reach_the_reduction_goals = 5;
 
-Items = {Box, Recicled_Box};
+Items = {Paper, Recicled_Paper, Cardboard};
 
-item_costs = [8, 9];
-item_selling_prices = [16, 18];
-item_co2_emissions = [10, 2];
-item_times = [2,2];
-item_extra_energy_consumption = [1,0];
+item_costs = [1, 2, 1];
+item_selling_prices = [6, 5, 2];
+item_co2_emissions = [10, 1, 2];
+item_times = [1, 2, 2];
+item_extra_energy_consumption = [5, 1, 1];
+item_extra_water_consumption = [5, 1, 1];
 % an already recicled material is less reciclable than a non recicled one
 % optional parameter (default = [])
-item_reciclable_compositions = [0.5, 0.4];
+item_reciclable_compositions = [1, 0.85, 0.4];
 % times_to_produce = [];
 % minimum_number_of_items_to_make = [];
 % raw_materials_of_items = [];
 
 % Maybe turn arrays in a big matrix
 Equipment = {M1, M2, M3};
-yearly_equipment_max_usage = [500, 600, 900];
-equipment_energy_consumption_per_hour = [2, 2, 4];
-equipment_co2_emission_per_hour = [20, 10, 5];
-equipment_water_consumption_per_hour = [2, 2, 2];
+yearly_equipment_max_usage = [2000, 1200, 1100];
+equipment_energy_consumption_per_hour = [9, 2, 3];
+equipment_co2_emission_per_hour = [9, 2, 3];
+equipment_water_consumption_per_hour = [9, 1, 2];
 
-equipment_prices = [200, 250, 600];
-equipment_disposal_prices = [100, 125, 300];
+equipment_prices = [20, 20, 20];
+equipment_disposal_prices = [5, 8, 18];
 max_equipment_number = 5;
 
 % m_linked_items = [|true, false|true, true|true,true|];
 % Should be <= sum(yearly_equipment_max_usage)
-starting_equipment = [2, 3, 0];
+starting_equipment = [0, 1, 1];
 % max_hour_equipment_usage = 5000;
-equipment_budget = 800;
+equipment_budget = 10;
 
 starting_certifications = [false, false, false];
 
 use_logistics_kpis = true;
-items_travel_distance = 5000;
+% items_delivery_total_time = 5000;
+
+*/
+
+% ["Paper: 27", "Recicled_Paper: 230", "Cardboard: 0"];
+
+% company_type = A;
+
+% The minimum earnings to obtain.
+budget = 1000;
+minimum_earnings = 1600;
+available_time_in_hours = 1760;
+
+% Co2 related constraints
+previous_year_co2_emissions = 3000;
+previous_year_energy_consumption = 1500; %181000
+previous_year_water_consumption = 2500; %183000
+
+years_to_reach_the_reduction_goals = 5;
+
+Items = {Paper, Recicled_Paper, Cardboard};
+
+item_costs = [1, 2, 1];
+item_selling_prices = [4, 5, 2];
+item_co2_emissions = [10, 1, 2];
+item_times = [2, 3, 3];
+item_extra_energy_consumption = [5, 1, 1];
+item_extra_water_consumption = [5, 1, 1];
+% an already recicled material is less reciclable than a non recicled one
+% optional parameter (default = [])
+item_reciclable_compositions = [1, 0.85, 0.4];
+% times_to_produce = [];
+% minimum_number_of_items_to_make = [];
+% raw_materials_of_items = [];
+
+% Maybe turn arrays in a big matrix
+Equipment = {M1, M2, M3};
+yearly_equipment_max_usage = [1000, 1200, 1760];
+equipment_energy_consumption_per_hour = [1, 2, 2];
+equipment_co2_emission_per_hour = [2, 3, 1];
+equipment_water_consumption_per_hour = [2, 1, 2];
+
+equipment_prices = [10, 25, 60];
+equipment_disposal_prices = [10, 12, 30];
+max_equipment_number = 5;
+
+% m_linked_items = [|true, false|true, true|true,true|];
+% Should be <= sum(yearly_equipment_max_usage)
+starting_equipment = [0, 0, 1];
+% max_hour_equipment_usage = 5000;
+equipment_budget = 10;
+
+starting_certifications = [false, false, false];
+
+use_logistics_kpis = true;
 % items_delivery_total_time = 5000;

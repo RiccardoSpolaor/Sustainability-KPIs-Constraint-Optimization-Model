@@ -9,13 +9,13 @@ par 0..1000000: budget;
 par 0..1000000: minimum_earnings;
 
 /** Integer expressing the Kg of C02 produced the previous year. */
-par 0..1000000: previous_year_co2_emissions;
+par 0..100000000: previous_year_co2_emissions;
 
 /** Integer expressing the KWatt of energy produced the previous year. */
-par 0..1000000: previous_year_energy_consumption;
+par 0..100000000: previous_year_energy_consumption;
 
 /** Integer expressing the liters of water consumed the previous year. */
-par 0..1000000: previous_year_water_consumption;
+par 0..100000000: previous_year_water_consumption;
 
 /** Integer expressing the maximum available production time in hours. */
 par 0..10000: available_time_in_hours;
@@ -40,6 +40,9 @@ array[Items] of par 0..10000: item_co2_emissions;
 /** Array of integers expressing extra Watt of extra energy consumption during production for each item*/
 array[Items] of par 0..100: item_extra_energy_consumption;
 
+/** Array of integers expressing extra Watt of extra energy consumption during production for each item*/
+array[Items] of par 0..100: item_extra_water_consumption;
+
 /** Array of integers expressing the time in hours to make a unit of each item. */
 array[Items] of par 0..1000: item_times;
 
@@ -52,22 +55,22 @@ enum Equipment;
 array[Equipment] of par 0..10000: yearly_equipment_max_usage;
 
 /** Array of integers expressing the KWatt/h consumed by each piece of equipment. */
-array[Equipment] of par 0..100: equipment_energy_consumption_per_hour;
+array[Equipment] of par 0..10000: equipment_energy_consumption_per_hour;
 
 /** Array of integers expressing the liters of water consumed by each piece of equipment per hour. */
-array[Equipment] of par 0..100: equipment_water_consumption_per_hour;
+array[Equipment] of par 0..10000: equipment_water_consumption_per_hour;
 
 /** Array of integers expressing the price in dollars ($) to buy each piece of equipment. */
-array[Equipment] of par 0..10000: equipment_prices;
+array[Equipment] of par 0..100000: equipment_prices;
 
 /** Array of integers expressing the price in dollars ($) earned by disposing each piece of equipment. */
-array[Equipment] of par 0..10000: equipment_disposal_prices;
+array[Equipment] of par 0..100000: equipment_disposal_prices;
 
 /** Array of integers expressing the number of units of pieces of equipment that the company owns before starting production. */
 array[Equipment] of par 0..max_equipment_number: starting_equipment;
 
 /** Array of integers expressing the CO2 Kg/h that each piece of equipment generates. */
-array[Equipment] of par 0..1000: equipment_co2_emission_per_hour;
+array[Equipment] of par 0..10000: equipment_co2_emission_per_hour;
 
 /** Integer expressing the maximum number of pieces of equipment that a company can own. */
 par 0..100: max_equipment_number;
@@ -90,5 +93,3 @@ array[int] of par 0.0..1.0: item_reciclable_compositions;
 /** Boolean expressing whether to include the logistics related scores in the environmental sustainability optimization. */
 par bool: use_logistics_kpis;
 
-/** Integer representing the distance in Km needed to deliver each item (Mandatory just when use_logistics_kpis is "true"). */
-par opt 0..100000: items_travel_distance;

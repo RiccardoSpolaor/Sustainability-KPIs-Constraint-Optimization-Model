@@ -10,8 +10,6 @@ constraint assert(
   "item_reciclable_compositions must be an empty array or an array that has the same length as Items"
 );
 
-/* Constraint to assert that the items_travel_distance parable is assigned if use_logistics_kpis is "true". */
-constraint assert(use_logistics_kpis == true -> occurs(items_travel_distance), "Insert the travel distance of the items.");
 
 % ========================================= COSTS RELATED CONSTRAINTS =========================================
 

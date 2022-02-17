@@ -78,7 +78,7 @@ constraint recycling_score();
 
 /* Constraint that normalizes the Equipment Reject Rate score and multiplies it by the Equipment Reject Rate KPI relevance. */
 constraint kpis_scores[Equipment_Reject_KPI] == kpis_relevances[Equipment_Reject_KPI] * 
-  (1 - sum(m in Equipment where starting_equipment[m] < actual_equipment[m])(abs(starting_equipment[m] - actual_equipment[m])) /
+  (1 - sum(m in Equipment where starting_equipment[m] > actual_equipment[m])(abs(starting_equipment[m] - actual_equipment[m])) /
   sum(starting_equipment));
 
 % =================================================== SOLUTION ===================================================
@@ -87,7 +87,11 @@ solve maximize sum(p in 1..card(KPIs) - 1)(kpis_scores[to_enum(KPIs, p)] * kpis_
 
 % ==================================================== OUTPUT ====================================================
 
+var int: eq_emissions = sum(m in Equipment)(yearly_equipment_actual_usage[m] * equipment_co2_emission_per_hour[m]); 
+
 output [
+
+  "eq_emissions: \(eq_emissions)\n",
   "Initial company state: \n",
     "\t* Budget: $\(budget) ($\(equipment_budget) allocated to purchase eventual new equipment);\n",
     "\t* Available equipment: \(["\(Equipment[m]): \(starting_equipment[m])" | m in Equipment]).\n\n",

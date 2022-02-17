@@ -8,7 +8,7 @@ include "functions.mzn";
 array[KPIs] of var 0.0..5.0: kpis_scores;
 
 /** Variable float expressing the total CO2 emissions during production. */
-var 0..10000: total_production_emissions = get_items_total_emissions() + get_equipment_total_emissions();
+var 0..10000000: total_production_emissions = get_items_total_emissions() + get_equipment_total_emissions();
 
 /** Variable float expressing the total KPI score percentage. */
 var 0.0..100.0: total_kpi_percentage_score = 100 * sum(p in KPIs where used_kpis[p] = true)(kpis_scores[p]) / 
@@ -17,13 +17,13 @@ var 0.0..100.0: total_kpi_percentage_score = 100 * sum(p in KPIs where used_kpis
 % ========================================= PRODUCTS RELATED VARIABLES =========================================
 
 /** Array of variable integers containing for each item the number of units actually produced. */
-array[Items] of var 0..50000: produced_items_number;
+array[Items] of var 0..500000: produced_items_number;
 
 /** Variable integer expressing the total earnings. */
-var minimum_earnings..100000: total_earnings = get_item_total_earnings();
+var minimum_earnings..10000000: total_earnings = get_item_total_earnings();
 
 /** Variable integer expressing the total hours of production. */
-var 0..available_time_in_hours: production_total_time = max([yearly_equipment_actual_usage[m] div min([1, actual_equipment[m]]) | m in Equipment]);
+var 0..available_time_in_hours: production_total_time = max([yearly_equipment_actual_usage[m] div max([1, actual_equipment[m]]) | m in Equipment]);
 
 % ========================================= EQUIPMENT RELATED VARIABLES =========================================
 
@@ -34,11 +34,12 @@ array[Equipment] of var 0..max_equipment_number: actual_equipment;
 array[Equipment] of var 0..10000: yearly_equipment_actual_usage;
 
 /** Variable float expressing the total energy consumption of the equipment after production. */
-var 0..10000: equipment_total_energy_consumption = sum(m in Equipment)(yearly_equipment_actual_usage[m] * equipment_energy_consumption_per_hour[m]) + 
+var 0..100000000000: equipment_total_energy_consumption = sum(m in Equipment)(yearly_equipment_actual_usage[m] * equipment_energy_consumption_per_hour[m]) + 
   sum(i in Items)(produced_items_number[i] * item_extra_energy_consumption[i]);
 
 /** Variable float expressing the total water consumption of the equipment after production. */
-var 0..10000: equipment_total_water_consumption = sum(m in Equipment)(yearly_equipment_actual_usage[m] * equipment_water_consumption_per_hour[m]);
+var 0..100000000000:equipment_total_water_consumption = sum(m in Equipment)(yearly_equipment_actual_usage[m] * equipment_water_consumption_per_hour[m]) + 
+  sum(i in Items)(produced_items_number[i] * item_extra_water_consumption[i]);
 
 % ====================================== CERTIFICATIONS RELATED VARIABLES =======================================
 
