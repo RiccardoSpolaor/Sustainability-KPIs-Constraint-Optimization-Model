@@ -87,11 +87,7 @@ solve maximize sum(p in 1..card(KPIs) - 1)(kpis_scores[to_enum(KPIs, p)] * kpis_
 
 % ==================================================== OUTPUT ====================================================
 
-var int: eq_emissions = sum(m in Equipment)(yearly_equipment_actual_usage[m] * equipment_co2_emission_per_hour[m]); 
-
 output [
-
-  "eq_emissions: \(eq_emissions)\n",
   "Initial company state: \n",
     "\t* Budget: $\(budget) k ($\(equipment_budget) k allocated to purchase eventual new equipment);\n",
     "\t* Available equipment: \(["\(Equipment[m]): \(starting_equipment[m])" | m in Equipment]).\n\n",
