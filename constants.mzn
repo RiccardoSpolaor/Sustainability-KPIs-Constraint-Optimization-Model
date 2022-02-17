@@ -60,19 +60,19 @@ array[Certifications] of par int: certifications_cost = [
 enum Transportation_Means = {Plane, Ship, Truck, Train};
 
 /** Array of floats expressing the shipment quality score of each mean of transport (Regarding the integrity condition of the items and the availability of the service). */
-array[Transportation_Means] of 0.0..1.0: transportation_means_quality = [1.0, 0.75, 0.25, 0.5];
+array[Transportation_Means] of 0.0..1.0: transportation_means_quality = [1.0, 0.7, 0.3, 0.5];
 
 /** Array of floats expressing the fuel consumption efficiency score of each mean of transport. */
-array[Transportation_Means] of 0.0..1.0: transportation_means_consumption_efficiency = [0.1, 0.6, 0.8, 1.0];
+array[Transportation_Means] of 0.0..1.0: transportation_means_consumption_efficiency = [0.1, 0.8, 0.8, 1.0];
 
 /** Integer expressing the weight of the quality of transportation (used for computing the normalization of the KPI score). */
-par 4..4: transportation_means_quality_weigth = 4;
+par 2..2: transportation_means_quality_weigth = 2;
 
 /** Integer expressing the weight of the fuel consumption efficiency of transportation (used for computing the normalization of the KPI score). */
-par 5..5: transportation_means_consumption_efficiency_weight = 5;
+par 8..8: transportation_means_consumption_efficiency_weight = 8;
 
 /** Array of integers expressing the capacity of each transportation mean (measured in units of items). */
 array[Transportation_Means] of int: transportation_means_capacity = [80, 130, 10, 50];
 
 /** Array of integers expressing the cost in thousands of dollars ($) per travel of each mean of transport. */
-array[Transportation_Means] of int: transportation_means_cost_per_km = [9, 8, 1, 1];
+array[Transportation_Means] of int: transportation_means_cost_per_km = [9, 1, 1, 2];
