@@ -101,16 +101,16 @@ output [
     "\t* Final equipment usage: \(["\(Equipment[m]): \(yearly_equipment_actual_usage[m])" | m in Equipment]).\n\n",
   
   "Co2 KPI score: \(kpis_scores[CO2_KPI]) / \(kpis_relevances[CO2_KPI])\n",
-    "\t* Previous CO2 emissions: \(previous_year_co2_emissions) kg;\n",
-    "\t* Reached CO2 emissions: \(total_production_emissions) kg.\n\n",
+    "\t* Previous CO2 emissions: \(previous_year_co2_emissions) tons;\n",
+    "\t* Reached CO2 emissions: \(total_production_emissions) tons.\n\n",
   
   "Energy efficiency KPI score: \(kpis_scores[Energy_Efficiency_KPI]) / \(kpis_relevances[Energy_Efficiency_KPI])\n", 
     "\t* Previous energy consumption \(previous_year_energy_consumption) KWatt;\n",
     "\t* Reached energy consumption \(equipment_total_energy_consumption) KWatt.\n\n",
   
   "Water KPI score: \(kpis_scores[Water_Consumption_KPI]) / \(kpis_relevances[Water_Consumption_KPI])\n",
-    "\t* Previous water consumption \(previous_year_water_consumption) liters;\n",
-    "\t* Reached water consumption \(equipment_total_water_consumption) liters.\n\n",
+    "\t* Previous water consumption \(previous_year_water_consumption) KLiters;\n",
+    "\t* Reached water consumption \(equipment_total_water_consumption) KLiters.\n\n",
   
   "Certifications KPI score: \(kpis_scores[Certifications_KPI]) / \(kpis_relevances[Certifications_KPI])\n",
     "\t* Starting certifications: \(["\(Certifications[c]): \(starting_certifications[c])" | c in Certifications]);\n",

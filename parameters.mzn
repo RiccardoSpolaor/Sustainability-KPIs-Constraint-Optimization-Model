@@ -8,13 +8,13 @@ par 0..1000000: budget;
 /** Integer expressing the minimum earning to achieve from selling items measured in thousands of dollars ($). */
 par 0..1000000: minimum_earnings;
 
-/** Integer expressing the Kg of C02 produced the previous year. */
+/** Integer expressing the tons of C02 produced the previous year. */
 par 0..100000000: previous_year_co2_emissions;
 
 /** Integer expressing the KWatt of energy produced the previous year. */
 par 0..100000000: previous_year_energy_consumption;
 
-/** Integer expressing the liters of water consumed the previous year. */
+/** Integer expressing the KLiters of water consumed the previous year. */
 par 0..100000000: previous_year_water_consumption;
 
 /** Integer expressing the maximum available production time in hours. */
@@ -57,7 +57,7 @@ array[Equipment] of par 0..10000: yearly_equipment_max_usage;
 /** Array of integers expressing the KWatt/h consumed by each piece of equipment. */
 array[Equipment] of par 0..10000: equipment_energy_consumption_per_hour;
 
-/** Array of integers expressing the liters of water consumed by each piece of equipment per hour. */
+/** Array of integers expressing the KLiters of water consumed by each piece of equipment per hour. */
 array[Equipment] of par 0..10000: equipment_water_consumption_per_hour;
 
 /** Array of integers expressing the price in thousands of dollars ($) to buy each piece of equipment. */
@@ -69,7 +69,7 @@ array[Equipment] of par 0..100000: equipment_disposal_prices;
 /** Array of integers expressing the number of units of pieces of equipment that the company owns before starting production. */
 array[Equipment] of par 0..max_equipment_number: starting_equipment;
 
-/** Array of integers expressing the CO2 Kg/h that each piece of equipment generates. */
+/** Array of integers expressing the CO2 tons/h that each piece of equipment generates. */
 array[Equipment] of par 0..10000: equipment_co2_emission_per_hour;
 
 /** Integer expressing the maximum number of pieces of equipment that a company can own. */
