@@ -51,6 +51,6 @@ function var 0..100000: get_certifications_total_costs() = sum(c in Certificatio
 
 /** Function that computes the total costs in thousand of dollars ($) for the logistics as a variable integer. */
 function var 0..100000: get_logistics_total_costs() = if use_logistics_kpis == true then sum (t in Transportation_Means)(
-  transportation_means_cost_per_km[t] * transportation_means_used[t])
+  transportation_means_costs[t] * transportation_means_used[t])
   else 0 endif;
   

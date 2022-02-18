@@ -75,4 +75,4 @@ par 8..8: transportation_means_consumption_efficiency_weight = 8;
 array[Transportation_Means] of int: transportation_means_capacity = [80, 130, 10, 50];
 
 /** Array of integers expressing the cost in thousands of dollars ($) per travel of each mean of transport. */
-array[Transportation_Means] of int: transportation_means_cost_per_km = [9, 1, 1, 2];
+array[Transportation_Means] of int: transportation_means_costs = [9, 1, 1, 2];
