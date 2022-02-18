@@ -37,10 +37,10 @@ array[Items] of par 0..10000: item_selling_prices;
 /** Array of integers expressing the CO2 emissions of the raw materials composing a unit of each item. */
 array[Items] of par 0..10000: item_co2_emissions; 
 
-/** Array of integers expressing extra Watt of extra energy consumption during production for each item*/
+/** Array of integers expressing extra KWatts of energy consumption during production for each item*/
 array[Items] of par 0..100: item_extra_energy_consumption;
 
-/** Array of integers expressing extra Watt of extra energy consumption during production for each item*/
+/** Array of integers expressing extra KLiters of water consumption during production for each item*/
 array[Items] of par 0..100: item_extra_water_consumption;
 
 /** Array of integers expressing the time in hours to make a unit of each item. */
