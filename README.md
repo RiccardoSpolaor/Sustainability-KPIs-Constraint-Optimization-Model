@@ -9,7 +9,7 @@ In particular the user is asked to input a series of business related parameters
     .
     ├── data
     │   └── input_example.dzn   # Input data example describing a paper production company
-    ├── data                       
+    ├── report                       
     │   └── report.pdf          # Report about the project 
     ├── .gitattributes
     ├── .gitignore
