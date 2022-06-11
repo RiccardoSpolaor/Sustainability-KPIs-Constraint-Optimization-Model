@@ -1,4 +1,4 @@
-# :earth_africa: LAAI-project-KPI :recycle:
+# :earth_africa: Sustainability KPIs Constraint Optimization Model :recycle:
 A constraint programming model in `Minizinc` which aims at maximizing the score of a series of environmental KPIs of a company, while making sure given production constraints are satisfied (e.g.: minimum  earnings are achieves; production times are respected).
 
 The program has been implemented in such a way that it can be customized for different types of companies and production goals.
