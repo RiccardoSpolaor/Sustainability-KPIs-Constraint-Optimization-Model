@@ -46,3 +46,5 @@ Git is used for versioning.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+Social preview image licensed by [Nature Vectors by Vecteezy](https://www.vecteezy.com/free-vector/nature).
